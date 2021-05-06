@@ -1,0 +1,16 @@
+[package]
+name = "concurrent-lua"
+version = "0.1.0"
+author = "Roblox"
+content_root = "src"
+
+# Optional fields and their definitions can be found at:
+# https://pages.github.rbx.com/pdoyle/rotriever-docs/reference/manifest-format/#manifest-fields
+
+[dependencies]
+LuauPolyfill = { git = "https://github.com/Roblox/luau-polyfill.git", rev = "v0.2.0" }
+Promise = { git = "https://github.com/evaera/roblox-lua-promise.git", tag = "v3.0.1" }
+RoactAlignment = { git = "https://github.com/roblox/roact-alignment.git", rev = "master" }
+
+[dev_dependencies]
+JestRoblox = "github.com/roblox/jest-roblox@1.0.0"
