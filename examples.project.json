@@ -1,30 +1,36 @@
 {
-    "name": "Concurrent Test Place",
-    "tree": {
-      "$className": "DataModel",
-  
-      "ReplicatedStorage": {
-        "$className": "ReplicatedStorage",
+  "name": "Concurrent Test Place",
+  "tree": {
+    "$className": "DataModel",
+
+    "ReplicatedStorage": {
+      "$className": "ReplicatedStorage",
+
+      "Packages": {
         "$path": "Packages"
       },
-  
-      "StarterPlayer": {
-        "$className": "StarterPlayer",
-  
-        "StarterPlayerScripts": {
-          "$className": "StarterPlayerScripts",
-  
-          "RoactExamples": {
-            "$path": "examples"
-          }
+      "Src": {
+        "$path": "src"
+      }
+    },
+
+    "StarterPlayer": {
+      "$className": "StarterPlayer",
+
+      "StarterPlayerScripts": {
+        "$className": "StarterPlayerScripts",
+
+        "RoactExamples": {
+          "$path": "examples"
         }
-      },
-  
-      "Players": {
-        "$className": "Players",
-        "$properties": {
-          "CharacterAutoLoads": false
-        }
+      }
+    },
+
+    "Players": {
+      "$className": "Players",
+      "$properties": {
+        "CharacterAutoLoads": false
       }
     }
   }
+}
