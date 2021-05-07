@@ -1,0 +1,30 @@
+{
+    "name": "Concurrent Test Place",
+    "tree": {
+      "$className": "DataModel",
+  
+      "ReplicatedStorage": {
+        "$className": "ReplicatedStorage",
+        "$path": "Packages"
+      },
+  
+      "StarterPlayer": {
+        "$className": "StarterPlayer",
+  
+        "StarterPlayerScripts": {
+          "$className": "StarterPlayerScripts",
+  
+          "RoactExamples": {
+            "$path": "examples"
+          }
+        }
+      },
+  
+      "Players": {
+        "$className": "Players",
+        "$properties": {
+          "CharacterAutoLoads": false
+        }
+      }
+    }
+  }
