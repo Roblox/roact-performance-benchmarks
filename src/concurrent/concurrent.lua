@@ -20,14 +20,14 @@ local App = function(props)
 		nil,
 		Roact.createElement(DivLike, nil, {
 			Roact.createElement("TextButton", {
-				Size = UDim2.new(0, 200, 0, 100),
-				Position = UDim2.new(1, 0, 0, 0),
+				Size = UDim2.new(0, 100, 0, 50),
+				Position = UDim2.new(1, -200, 0, 0),
 				AnchorPoint = Vector2.new(1, 0),
 				Text = "Stop",
 				[Roact.Event.Activated] = props.Stop,
 			}),
 			Roact.createElement("TextButton", {
-				Size = UDim2.new(0, 200, 0, 100),
+				Size = UDim2.new(0, 100, 0, 50),
 				Position = UDim2.new(0.5, 0, 0, 0),
 				AnchorPoint = Vector2.new(0.5, 0),
 				Text = "Toggle " .. tostring(count),
