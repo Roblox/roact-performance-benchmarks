@@ -1,15 +1,23 @@
 -- upstream: https://github.com/pmndrs/react-three-fiber/blob/v5.3.19/examples/src/demos/dev/Concurrent.js
+
 local rootWorkspace = script.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 local Roact = require(Packages.Roact)
 local useState = Roact.useState
 local useEffect = Roact.useEffect
 local useRef = Roact.useRef
-
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
+local setTimeout = LuauPolyfill.setTimeout
+local jsutils = require(script.Parent.Parent.jsutils)
+local setInterval, clearInterval = jsutils.setInterval, jsutils.clearInterval
+-- ROBLOX TODO: replace deep import when Rotriever handles submodules
+local Scheduler = require(Packages._Index.roact.roact.Scheduler)
+local low, run = Scheduler.unstable_LowPriority, Scheduler.unstable_runWithPriority
 
-local RunService = game:GetService("RunService")
+local useFrame = require(script.Parent.useFrame).useFrame
+local DivLike = require(script.Parent.DivLike).DivLike
+local Mesh = require(script.Parent.Mesh).Mesh
 
 -- ROBLOX deviation: because os.clock() returns a nr in seconds it's easier to
 -- use slowdown in seconds as well
@@ -36,31 +44,46 @@ local function Block(props)
 		repeat
 		until not os.clock() < e
 	end
-end
 
-local DivLike = function(props)
-	return Roact.createElement("Folder", { Name = "Div" }, props.children)
-end
+	local mounted = useRef(false)
 
-function useFrame(onFrame)
 	useEffect(function()
-		local name = "FPS Counter"
-		RunService:BindToRenderStep(name, Enum.RenderPriority.First.Value, onFrame)
-
+		mounted.current = true
 		return function()
-			local success, message = pcall(function()
-				RunService:UnbindFromRenderStep(name)
+			mounted.current = false
+		end
+	end)
+
+	useEffect(function()
+		if change then
+			setTimeout(function()
+				if mounted.current then
+					set(math.round(math.random() * 0xffffff))
+				end
+			end, math.random() * 1000)
+		end
+	end, {
+		change,
+	})
+
+	return Roact.createElement(Mesh, nil) -- TODO use Roblox components for mesh
+end
+
+local function Blocks()
+	local changeBlocks, set = useState(false)
+	useEffect(function()
+		local handler = setInterval(function()
+			set(function(state)
+				return not state
 			end)
-			if success then
-				print("Success: Function unbound!")
-			else
-				print("An error occurred: " .. message)
-			end
+		end, 2000)
+		return function()
+			clearInterval(handler)
 		end
 	end)
 end
 
-function FPS(props)
+local function FPS(props)
 	local ref = useRef()
 	local last = os.clock()
 	local qty = 0
