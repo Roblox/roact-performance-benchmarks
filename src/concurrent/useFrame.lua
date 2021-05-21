@@ -24,5 +24,5 @@ local function useFrame(onFrame)
 end
 
 return {
-    useFrame = useFrame
+	useFrame = useFrame,
 }
