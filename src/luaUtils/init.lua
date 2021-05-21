@@ -5,8 +5,7 @@ local Object = LuauPolyfill.Object
 
 local makeIntervalImpl = require(script.makeIntervalImpl)
 
-
-return Object.assign(
-    {},
-    makeIntervalImpl(delay)
-)
+return Object.assign({
+    Array = require(script.Array),
+    String = require(script.String),
+}, makeIntervalImpl(delay))

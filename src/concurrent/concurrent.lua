@@ -9,10 +9,9 @@ local useEffect = Roact.useEffect
 local useRef = Roact.useRef
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
-local Array = require(srcWorkspace.luaUtils.Array)
 local setTimeout = LuauPolyfill.setTimeout
-local jsutils = require(script.Parent.Parent.jsutils)
-local setInterval, clearInterval = jsutils.setInterval, jsutils.clearInterval
+local luaUtils = require(script.Parent.Parent.luaUtils)
+local Array, setInterval, clearInterval = luaUtils.Array, luaUtils.setInterval, luaUtils.clearInterval
 -- ROBLOX TODO: replace deep import when Rotriever handles submodules
 local Scheduler = require(Packages._Index.roact.roact.Scheduler)
 local low, run = Scheduler.unstable_LowPriority, Scheduler.unstable_runWithPriority
@@ -37,10 +36,12 @@ end
 
 local function Block(props)
 	local change, restProps = props.change, Object.assign({}, props, { change = Object.None })
-	local color, set = useState({0,0,0})
+	-- ROBLOX deviation: we need to use 3 numbers to represent a color in Roblox
+	local color, set = useState({ 0, 0, 0 })
 
 	-- Artificial slowdown ...
-	if color[1] + color[2] + color[3] > 0  then
+	-- ROBLOX deviation: whole color is equal 0 if sum of all color parts is equal to 0
+	if color[1] + color[2] + color[3] > 0 then
 		local e = os.clock() + SLOWDOWN
 		repeat
 		until not os.clock() < e
@@ -59,7 +60,7 @@ local function Block(props)
 		if change then
 			setTimeout(function()
 				run(low, function()
-					return mounted.current and set({math.random(), math.random(), math.random()})
+					return mounted.current and set({ math.random(), math.random(), math.random() })
 				end)
 			end, math.random() * 1000)
 		end
@@ -144,8 +145,6 @@ local function FPS()
 		ref = ref,
 	})
 end
-
-
 
 local App = function(props)
 	local count, setCount = useState(0)

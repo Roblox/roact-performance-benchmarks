@@ -6,7 +6,6 @@ type Task = {
 }
 
 local SCHEDULED = 1
--- local DONE = 2
 local CANCELLED = 3
 
 return function(delayImpl)
@@ -30,19 +29,11 @@ return function(delayImpl)
 				if task[Status] == SCHEDULED then
 					callback(unpack(args))
 					delay()
-					-- task[Status] = DONE
 				end
 			end)
 		end
 
 		delay()
-
-		-- delayImpl(intervalTimeMs, function()
-		-- 	if task[Status] == SCHEDULED then
-		-- 		callback(unpack(args))
-		-- 		task[Status] = DONE
-		-- 	end
-		-- end)
 
 		return task
 	end
