@@ -1,4 +1,4 @@
-local rootWorkspace = script.Parent.Parent.Parent
+local rootWorkspace = script.Parent.Parent
 local Packages = rootWorkspace.Packages
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object

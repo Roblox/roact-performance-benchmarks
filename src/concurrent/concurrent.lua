@@ -1,6 +1,7 @@
 -- upstream: https://github.com/pmndrs/react-three-fiber/blob/v5.3.19/examples/src/demos/dev/Concurrent.js
 
-local rootWorkspace = script.Parent.Parent.Parent
+local srcWorkspace = script.Parent.Parent
+local rootWorkspace = srcWorkspace.Parent
 local Packages = rootWorkspace.Packages
 local Roact = require(Packages.Roact)
 local useState = Roact.useState
@@ -8,6 +9,7 @@ local useEffect = Roact.useEffect
 local useRef = Roact.useRef
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
+local Array = require(srcWorkspace.luaUtils.Array)
 local setTimeout = LuauPolyfill.setTimeout
 local jsutils = require(script.Parent.Parent.jsutils)
 local setInterval, clearInterval = jsutils.setInterval, jsutils.clearInterval
@@ -17,7 +19,7 @@ local low, run = Scheduler.unstable_LowPriority, Scheduler.unstable_runWithPrior
 
 local useFrame = require(script.Parent.useFrame).useFrame
 local DivLike = require(script.Parent.DivLike).DivLike
-local Mesh = require(script.Parent.Mesh).Mesh
+local Canvas = require(script.Parent.Canvas).Canvas
 
 -- ROBLOX deviation: because os.clock() returns a nr in seconds it's easier to
 -- use slowdown in seconds as well
@@ -35,11 +37,10 @@ end
 
 local function Block(props)
 	local change, restProps = props.change, Object.assign({}, props, { change = Object.None })
-
-	local color, set = useState(0)
+	local color, set = useState({0,0,0})
 
 	-- Artificial slowdown ...
-	if color > 0 then
+	if color[1] + color[2] + color[3] > 0  then
 		local e = os.clock() + SLOWDOWN
 		repeat
 		until not os.clock() < e
@@ -57,16 +58,21 @@ local function Block(props)
 	useEffect(function()
 		if change then
 			setTimeout(function()
-				if mounted.current then
-					set(math.round(math.random() * 0xffffff))
-				end
+				run(low, function()
+					return mounted.current and set({math.random(), math.random(), math.random()})
+				end)
 			end, math.random() * 1000)
 		end
 	end, {
 		change,
 	})
 
-	return Roact.createElement(Mesh, nil) -- TODO use Roblox components for mesh
+	return Roact.createElement("Part", {
+		Material = Enum.Material.Plastic,
+		Color = Color3.new(table.unpack(color)),
+		Position = Vector3.new(table.unpack(props.position)),
+		Size = Vector3.new(table.unpack(props.scale)),
+	})
 end
 
 local function Blocks()
@@ -81,9 +87,26 @@ local function Blocks()
 			clearInterval(handler)
 		end
 	end)
+
+	-- const { viewport } = useThree()
+	-- const { width, height } = viewport().factor
+	local width, height = 800, 600 -- TODO implement viewport
+	local size = width / 100 / ROW
+	return Array.map(Array.create(BLOCK_AMOUNT, 0), function(_, i)
+		local left = -width / 100 / 2 + size / 2
+		local top = height / 100 / 2 - size / 2
+		local x = (i % ROW) * size
+		local y = math.floor(i / ROW) * -size
+		return Roact.createElement(Block, {
+			key = i,
+			change = changeBlocks,
+			scale = { size, size, size },
+			position = { left + x, top + y, 0 },
+		})
+	end)
 end
 
-local function FPS(props)
+local function FPS()
 	local ref = useRef()
 	local last = os.clock()
 	local qty = 0
@@ -113,8 +136,16 @@ local function FPS(props)
 		last = now
 	end)
 
-	return Roact.createElement("TextLabel", Object.assign({}, props, { Text = "...", ref = ref }))
+	return Roact.createElement("TextLabel", {
+		Size = UDim2.new(0, 100, 0, 100),
+		Position = UDim2.new(0, 200, 0, 0),
+		AnchorPoint = Vector2.new(0, 0),
+		Text = "...",
+		ref = ref,
+	})
 end
+
+
 
 local App = function(props)
 	local count, setCount = useState(0)
@@ -129,10 +160,9 @@ local App = function(props)
 		"ScreenGui",
 		nil,
 		Roact.createElement(DivLike, nil, {
-			Roact.createElement(FPS, {
-				Size = UDim2.new(0, 100, 0, 100),
-				Position = UDim2.new(0, 200, 0, 0),
-				AnchorPoint = Vector2.new(0, 0),
+			Roact.createElement(FPS),
+			Roact.createElement(Canvas, {}, {
+				Roact.createElement(Blocks),
 			}),
 			Roact.createElement("TextButton", {
 				Size = UDim2.new(0, 100, 0, 50),
