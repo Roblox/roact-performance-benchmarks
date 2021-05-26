@@ -1,15 +1,24 @@
 -- upstream: https://github.com/pmndrs/react-three-fiber/blob/v5.3.19/examples/src/demos/dev/Concurrent.js
-local rootWorkspace = script.Parent.Parent.Parent
+
+local srcWorkspace = script.Parent.Parent
+local rootWorkspace = srcWorkspace.Parent
 local Packages = rootWorkspace.Packages
 local Roact = require(Packages.Roact)
 local useState = Roact.useState
 local useEffect = Roact.useEffect
 local useRef = Roact.useRef
-
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
+local setTimeout = LuauPolyfill.setTimeout
+local luaUtils = require(script.Parent.Parent.luaUtils)
+local Array, setInterval, clearInterval = luaUtils.Array, luaUtils.setInterval, luaUtils.clearInterval
+-- ROBLOX TODO: replace deep import when Rotriever handles submodules
+local Scheduler = require(Packages._Index.roact.roact.Scheduler)
+local low, run = Scheduler.unstable_LowPriority, Scheduler.unstable_runWithPriority
 
-local RunService = game:GetService("RunService")
+local useFrame = require(script.Parent.useFrame)
+local DivLike = require(script.Parent.DivLike)
+local Canvas = require(script.Parent.Canvas)
 
 -- ROBLOX deviation: because os.clock() returns a nr in seconds it's easier to
 -- use slowdown in seconds as well
@@ -27,40 +36,78 @@ end
 
 local function Block(props)
 	local change, restProps = props.change, Object.assign({}, props, { change = Object.None })
-
-	local color, set = useState(0)
+	-- ROBLOX deviation: we need to use 3 numbers to represent a color in Roblox
+	local color, set = useState(Color3.new(0, 0, 0))
 
 	-- Artificial slowdown ...
-	if color > 0 then
+	-- ROBLOX deviation: whole color is equal 0 if sum of all color parts is equal to 0
+	if color.R + color.G + color.B > 0 then
 		local e = os.clock() + SLOWDOWN
 		repeat
 		until not os.clock() < e
 	end
-end
 
-local DivLike = function(props)
-	return Roact.createElement("Folder", { Name = "Div" }, props.children)
-end
+	local mounted = useRef(false)
 
-function useFrame(onFrame)
 	useEffect(function()
-		local name = "FPS Counter"
-		RunService:BindToRenderStep(name, Enum.RenderPriority.First.Value, onFrame)
-
+		mounted.current = true
 		return function()
-			local success, message = pcall(function()
-				RunService:UnbindFromRenderStep(name)
-			end)
-			if success then
-				print("Success: Function unbound!")
-			else
-				print("An error occurred: " .. message)
-			end
+			mounted.current = false
 		end
+	end)
+
+	useEffect(function()
+		if change then
+			setTimeout(function()
+				run(low, function()
+					return mounted.current and set(Color3.new(math.random(), math.random(), math.random()))
+				end)
+			end, math.random() * 1000)
+		end
+	end, {
+		change,
+	})
+
+	return Roact.createElement("Part", {
+		Material = Enum.Material.Plastic,
+		Color = color,
+		Position = Vector3.new(table.unpack(props.position)),
+		Size = Vector3.new(table.unpack(props.scale)),
+	})
+end
+
+local function Blocks()
+	local changeBlocks, set = useState(false)
+	useEffect(function()
+		local handler = setInterval(function()
+			set(function(state)
+				return not state
+			end)
+		end, 2000)
+		return function()
+			clearInterval(handler)
+		end
+	end)
+
+	-- const { viewport } = useThree()
+	-- const { width, height } = viewport().factor
+	local width, height = 800, 600 -- TODO implement viewport
+	local size = width / 100 / ROW
+	return Array.map(Array.create(BLOCK_AMOUNT, 0), function(_, i)
+		local left = -width / 100 / 2 + size / 2
+		local top = height / 100 / 2 - size / 2
+		local x = (i % ROW) * size
+		local y = math.floor(i / ROW) * -size
+		return Roact.createElement(Block, {
+			key = i,
+			change = changeBlocks,
+			scale = { size, size, size },
+			position = { left + x, top + y, 0 },
+		})
 	end)
 end
 
-function FPS(props)
+local function FPS()
 	local ref = useRef()
 	local last = os.clock()
 	local qty = 0
@@ -90,7 +137,13 @@ function FPS(props)
 		last = now
 	end)
 
-	return Roact.createElement("TextLabel", Object.assign({}, props, { Text = "...", ref = ref }))
+	return Roact.createElement("TextLabel", {
+		Size = UDim2.new(0, 100, 0, 100),
+		Position = UDim2.new(0, 200, 0, 0),
+		AnchorPoint = Vector2.new(0, 0),
+		Text = "...",
+		ref = ref,
+	})
 end
 
 local App = function(props)
@@ -106,10 +159,9 @@ local App = function(props)
 		"ScreenGui",
 		nil,
 		Roact.createElement(DivLike, nil, {
-			Roact.createElement(FPS, {
-				Size = UDim2.new(0, 100, 0, 100),
-				Position = UDim2.new(0, 200, 0, 0),
-				AnchorPoint = Vector2.new(0, 0),
+			Roact.createElement(FPS),
+			Roact.createElement(Canvas, {}, {
+				Roact.createElement(Blocks),
 			}),
 			Roact.createElement("TextButton", {
 				Size = UDim2.new(0, 100, 0, 50),
