@@ -35,7 +35,7 @@ local rpi = function()
 end
 
 local function Block(props)
-	local change, restProps = props.change, Object.assign({}, props, { change = Object.None })
+	local change, restProps = props.change or false, Object.assign({}, props, { change = Object.None })
 	-- ROBLOX deviation: we need to use 3 numbers to represent a color in Roblox
 	local color, set = useState(Color3.new(0, 0, 0))
 
@@ -44,7 +44,7 @@ local function Block(props)
 	if color.R + color.G + color.B > 0 then
 		local e = os.clock() + SLOWDOWN
 		repeat
-		until not os.clock() < e
+		until not (os.clock() < e)
 	end
 
 	local mounted = useRef(false)
@@ -93,11 +93,13 @@ local function Blocks()
 	-- const { width, height } = viewport().factor
 	local width, height = 800, 600 -- TODO implement viewport
 	local size = width / 100 / ROW
-	return Array.map(Array.create(BLOCK_AMOUNT, 0), function(_, i)
+	return Array.map(Array.create(BLOCK_AMOUNT, 0), function(_, i_)
+		local i = i_ - 1
 		local left = -width / 100 / 2 + size / 2
 		local top = height / 100 / 2 - size / 2
 		local x = (i % ROW) * size
 		local y = math.floor(i / ROW) * -size
+
 		return Roact.createElement(Block, {
 			key = i,
 			change = changeBlocks,
@@ -165,7 +167,7 @@ local function Box()
 		Material = Enum.Material.Rock,
 		Size = Vector3.new(2, 2, 2),
 		Color = Color3.new(math.random(), math.random(), math.random()),
-		Reflectance = 0.3
+		Reflectance = 0.3,
 	})
 end
 
@@ -175,14 +177,35 @@ local function AnimatedSpikes()
 	end)
 end
 
+local function Dolly(props)
+	-- const { clock, camera } = useThree()
+	local t = os.clock()
+	local function elapsedTime()
+		return os.clock() - t
+	end
+	useFrame(function()
+		if props.canvasRef.current then
+			props.canvasRef.current.CFrame = CFrame.new(
+				Vector3.new(0, 0, 6 + math.sin(elapsedTime() * 3) * 2),
+				Vector3.new(0, 0, 0)
+			)
+		end
+	end)
+	return nil
+end
+
 local App = function()
+	local canvasRef = useRef()
 	return Roact.createElement(
 		"ScreenGui",
 		nil,
 		Roact.createElement(DivLike, nil, {
-			Roact.createElement(Canvas, {}, {
+			Roact.createElement(Canvas, {
+				ref = canvasRef,
+			}, {
 				Roact.createElement(Blocks),
 				Roact.createElement(AnimatedSpikes),
+				Roact.createElement(Dolly, { canvasRef = canvasRef }),
 			}),
 			Roact.createElement(FPS),
 		})

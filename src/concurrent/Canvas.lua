@@ -7,11 +7,15 @@ local useEffect = Roact.useEffect
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
 
-function Canvas(props)
+-- ROBLOX TODO: replace deep import when Rotriever handles submodules
+local forwardRef = require(Packages._Index.roact.roact.React.ReactForwardRef).forwardRef
+
+local Canvas = forwardRef(function (props, ref)
 	local viewportRef = useRef()
-	local cameraRef = useRef()
+	local cameraRef_ = useRef()
+	local cameraRef = ref or cameraRef_
 	local camera = Roact.createElement("Camera", {
-		CFrame = CFrame.new(Vector3.new(0, 2, 4), Vector3.new(0, 0, 0)),
+		CFrame = CFrame.new(Vector3.new(0, 0, 6), Vector3.new(0, 0, 0)),
 		ref = cameraRef,
 	})
 
@@ -27,6 +31,6 @@ function Canvas(props)
 	}, Array.concat({
 		camera,
 	}, props.children))
-end
+end)
 
 return Canvas
