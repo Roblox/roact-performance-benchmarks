@@ -23,6 +23,4 @@ local function useFrame(onFrame)
 	end)
 end
 
-return {
-	useFrame = useFrame,
-}
+return useFrame

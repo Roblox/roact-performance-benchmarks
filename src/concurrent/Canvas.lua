@@ -29,6 +29,4 @@ function Canvas(props)
 	}, props.children))
 end
 
-return {
-	Canvas = Canvas,
-}
+return Canvas

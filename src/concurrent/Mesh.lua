@@ -8,6 +8,4 @@ function Mesh(props)
 	return Roact.createElement("TextLabel", Object.assign({}, props, { Text = "Mesh mock" }))
 end
 
-return {
-	Mesh = Mesh,
-}
+return Mesh

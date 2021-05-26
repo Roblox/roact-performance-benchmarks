@@ -16,9 +16,9 @@ local Array, setInterval, clearInterval = luaUtils.Array, luaUtils.setInterval, 
 local Scheduler = require(Packages._Index.roact.roact.Scheduler)
 local low, run = Scheduler.unstable_LowPriority, Scheduler.unstable_runWithPriority
 
-local useFrame = require(script.Parent.useFrame).useFrame
-local DivLike = require(script.Parent.DivLike).DivLike
-local Canvas = require(script.Parent.Canvas).Canvas
+local useFrame = require(script.Parent.useFrame)
+local DivLike = require(script.Parent.DivLike)
+local Canvas = require(script.Parent.Canvas)
 
 -- ROBLOX deviation: because os.clock() returns a nr in seconds it's easier to
 -- use slowdown in seconds as well
@@ -37,11 +37,11 @@ end
 local function Block(props)
 	local change, restProps = props.change, Object.assign({}, props, { change = Object.None })
 	-- ROBLOX deviation: we need to use 3 numbers to represent a color in Roblox
-	local color, set = useState({ 0, 0, 0 })
+	local color, set = useState(Color3.new(0, 0, 0))
 
 	-- Artificial slowdown ...
 	-- ROBLOX deviation: whole color is equal 0 if sum of all color parts is equal to 0
-	if color[1] + color[2] + color[3] > 0 then
+	if color.R + color.G + color.B > 0 then
 		local e = os.clock() + SLOWDOWN
 		repeat
 		until not os.clock() < e
@@ -60,7 +60,7 @@ local function Block(props)
 		if change then
 			setTimeout(function()
 				run(low, function()
-					return mounted.current and set({ math.random(), math.random(), math.random() })
+					return mounted.current and set(Color3.new(math.random(), math.random(), math.random()))
 				end)
 			end, math.random() * 1000)
 		end
@@ -70,7 +70,7 @@ local function Block(props)
 
 	return Roact.createElement("Part", {
 		Material = Enum.Material.Plastic,
-		Color = Color3.new(table.unpack(color)),
+		Color = color,
 		Position = Vector3.new(table.unpack(props.position)),
 		Size = Vector3.new(table.unpack(props.scale)),
 	})
