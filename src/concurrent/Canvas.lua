@@ -11,7 +11,7 @@ function Canvas(props)
 	local viewportRef = useRef()
 	local cameraRef = useRef()
 	local camera = Roact.createElement("Camera", {
-		CFrame = CFrame.new(Vector3.new(0, 2, 12), Vector3.new(0, 0, 0)),
+		CFrame = CFrame.new(Vector3.new(0, 2, 4), Vector3.new(0, 0, 0)),
 		ref = cameraRef,
 	})
 
@@ -20,9 +20,9 @@ function Canvas(props)
 	end)
 
 	return Roact.createElement("ViewportFrame", {
-		Size = UDim2.new(0, 800, 0, 600),
+		Size = UDim2.new(0.8, 0, 0.8, 0),
+        Position = UDim2.new(0.1, 0, 0.1, 0),
 		BackgroundColor3 = Color3.fromRGB(0x27, 0x27, 0x37),
-		ZIndex = 2,
 		ref = viewportRef,
 	}, Array.concat({
 		camera,

@@ -138,56 +138,53 @@ local function FPS()
 	end)
 
 	return Roact.createElement("TextLabel", {
-		Size = UDim2.new(0, 100, 0, 100),
-		Position = UDim2.new(0, 200, 0, 0),
-		AnchorPoint = Vector2.new(0, 0),
+		Size = UDim2.new(0, 150, 0, 100),
+		Position = UDim2.new(1, -10, 1, -10),
+		AnchorPoint = Vector2.new(1, 1),
 		Text = "...",
 		ref = ref,
 	})
 end
 
-local App = function(props)
-	local count, setCount = useState(0)
+local function Box()
+	local t = 0
+	local mesh = useRef()
+	local coords = useState(function()
+		return { rpi(), rpi(), rpi() }
+	end)
+	useFrame(function()
+		-- ROBLOX deviation: increase t before calculating rotation matrix
+		t += 0.01
+		local rotationFrame = CFrame.Angles(coords[1] + t, coords[2] + t, coords[3] + t)
+		if mesh.current then
+			mesh.current.CFrame = rotationFrame
+		end
+	end)
+	return Roact.createElement("Part", {
+		ref = mesh,
+		Material = Enum.Material.Rock,
+		Size = Vector3.new(2, 2, 2),
+		Color = Color3.new(math.random(), math.random(), math.random()),
+		Reflectance = 0.3
+	})
+end
 
-	local buttonActivated = function()
-		setCount(count + 1)
-		print("activated")
-		print(count)
-	end
+local function AnimatedSpikes()
+	return Array.map(Array.create(SPIKE_AMOUNT, 0), function(_, i)
+		return Roact.createElement(Box, { key = i })
+	end)
+end
 
+local App = function()
 	return Roact.createElement(
 		"ScreenGui",
 		nil,
 		Roact.createElement(DivLike, nil, {
-			Roact.createElement(FPS),
 			Roact.createElement(Canvas, {}, {
 				Roact.createElement(Blocks),
+				Roact.createElement(AnimatedSpikes),
 			}),
-			Roact.createElement("TextButton", {
-				Size = UDim2.new(0, 100, 0, 50),
-				Position = UDim2.new(1, -200, 0, 0),
-				AnchorPoint = Vector2.new(1, 0),
-				Text = "Stop",
-				[Roact.Event.Activated] = props.Stop,
-			}),
-			Roact.createElement("TextButton", {
-				Size = UDim2.new(0, 100, 0, 50),
-				Position = UDim2.new(0.5, 0, 0, 0),
-				AnchorPoint = Vector2.new(0.5, 0),
-				Text = "Toggle " .. tostring(count),
-				[Roact.Event.Activated] = buttonActivated,
-			}),
-			count % 2 == 0 and Roact.createElement("TextLabel", {
-				Size = UDim2.new(0, 400, 0, 300),
-				Position = UDim2.new(0.25, 0, 0.5, 0),
-				AnchorPoint = Vector2.new(0.5, 0.5),
-				Text = "Hello, Roact1!",
-			}) or Roact.createElement("TextLabel", {
-				Size = UDim2.new(0, 400, 0, 300),
-				Position = UDim2.new(0.75, 0, 0.5, 0),
-				AnchorPoint = Vector2.new(0.5, 0.5),
-				Text = "Hello, Roact2!",
-			}),
+			Roact.createElement(FPS),
 		})
 	)
 end
