@@ -8,9 +8,10 @@ content_root = "src"
 # https://pages.github.rbx.com/pdoyle/rotriever-docs/reference/manifest-format/#manifest-fields
 
 [dependencies]
-LuauPolyfill = { git = "https://github.com/Roblox/luau-polyfill.git", rev = "v0.2.0" }
-Promise = { git = "https://github.com/evaera/roblox-lua-promise.git", tag = "v3.0.1" }
+LuauPolyfill = "github.com/Roblox/luau-polyfill@0.2.0"
+Promise = "github.com/evaera/roblox-lua-promise@3.0.1"
 Roact = { git = "https://github.com/roblox/roact-alignment.git", rev = "master" }
+Cryo = "github.com/Roblox/cryo@1.0.0"
 
 [dev_dependencies]
 JestRoblox = "github.com/roblox/jest-roblox@1.0.0"
