@@ -1,0 +1,22 @@
+{
+  "name": "BenchmarkExamplesCI",
+  "tree": {
+    "$className": "Folder",
+
+    "Players": {
+      "$className": "Players",
+      "$properties": {
+        "CharacterAutoLoads": false
+      }
+    },
+    "Packages": {
+      "$path": "Packages"
+    },
+    "Src": {
+      "$path": "src"
+    },
+    "RoactExamples": {
+      "$path": "examples"
+    }
+  }
+}
