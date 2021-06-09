@@ -10,7 +10,7 @@ content_root = "src"
 [dependencies]
 LuauPolyfill = "github.com/Roblox/luau-polyfill@0.2.0"
 Promise = "github.com/evaera/roblox-lua-promise@3.0.1"
-Roact = { git = "https://github.com/roblox/roact-alignment.git", rev = "master" }
+Roact = { git = "https://github.com/roblox/roact-alignment.git", rev = "293eaac" }
 Cryo = "github.com/Roblox/cryo@1.0.0"
 
 [dev_dependencies]
