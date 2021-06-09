@@ -8,7 +8,7 @@ local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
 
 -- ROBLOX TODO: replace deep import when Rotriever handles submodules
-local forwardRef = require(Packages._Index.roact.roact.React.ReactForwardRef).forwardRef
+local forwardRef = Roact.forwardRef
 
 local Canvas = forwardRef(function (props, ref)
 	local viewportRef = useRef()
