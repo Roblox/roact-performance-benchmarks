@@ -1,5 +1,4 @@
 return function(str, startIndexStr, lastIndexStr)
-
 	local strLen = utf8.len(str)
 
 	if startIndexStr + utf8.len(str) < 0 then
@@ -23,5 +22,4 @@ return function(str, startIndexStr, lastIndexStr)
 	local lastIndexByte = utf8.offset(str, lastIndexStr) - 1
 
 	return string.sub(str, startIndexByte, lastIndexByte)
-
 end

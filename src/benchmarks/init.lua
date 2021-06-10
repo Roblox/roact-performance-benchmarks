@@ -17,8 +17,7 @@ local packageNames = Object.keys(implementations)
 local function createTestBlock(fn)
 	return Array.reduce(packageNames, function(testSetups, packageName)
 		local implementation = implementations[packageName]
-		local name, components, version =
-			implementation.name, implementation.components, implementation.version
+		local name, components, version = implementation.name, implementation.components, implementation.version
 
 		local componentInfo = fn(components)
 		local Component, getComponentProps, sampleCount, Provider, benchmarkType = componentInfo.Component,

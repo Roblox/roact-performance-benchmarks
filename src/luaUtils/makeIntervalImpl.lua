@@ -1,20 +1,18 @@
 local Status = newproxy(false)
 
 type TaskStatus = number
-type Task = {
-	[Status]: TaskStatus
-}
+type Task = { [Status]: TaskStatus }
 
 local SCHEDULED = 1
 local CANCELLED = 3
 
 return function(delayImpl)
 	local function setInterval(callback, intervalTime: number, ...): Task
-		local args = {...}
+		local args = { ... }
 		local task = {
-			[Status] = SCHEDULED
+			[Status] = SCHEDULED,
 		}
-		
+
 		-- delayTime is an optional parameter
 		if intervalTime == nil then
 			intervalTime = 0
@@ -24,7 +22,7 @@ return function(delayImpl)
 		local intervalTimeMs = intervalTime / 1000
 
 		local delay
-		delay = function ()
+		delay = function()
 			delayImpl(intervalTimeMs, function()
 				if task[Status] == SCHEDULED then
 					callback(unpack(args))
