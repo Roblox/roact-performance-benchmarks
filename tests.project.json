@@ -1,0 +1,16 @@
+{
+    "name": "TestingModel",
+    "tree": {
+      "$className": "Folder",
+      "Packages": {
+        "$path": "Packages",
+        "Dev": {
+          "$path": "Packages/Dev"
+        }
+      },
+      "Src": {
+        "$path": "src"
+      }
+    }
+  }
+  

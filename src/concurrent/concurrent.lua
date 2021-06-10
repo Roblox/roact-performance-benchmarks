@@ -27,15 +27,15 @@ local ROW = 20
 local BLOCK_AMOUNT = 600
 local SPIKE_AMOUNT = 1000
 
-local geom = {} -- new BoxBufferGeometry(1, 1, 1)
-local matr = {} -- new MeshNormalMaterial()
+local _geom = {} -- new BoxBufferGeometry(1, 1, 1)
+local _matr = {} -- new MeshNormalMaterial()
 
 local rpi = function()
 	return math.random() * math.pi
 end
 
 local function Block(props)
-	local change, restProps = props.change or false, Object.assign({}, props, { change = Object.None })
+	local change, _restProps = props.change or false, Object.assign({}, props, { change = Object.None })
 	-- ROBLOX deviation: we need to use 3 numbers to represent a color in Roblox
 	local color, set = useState(Color3.new(0, 0, 0))
 

@@ -21,17 +21,17 @@ return function(delayImpl)
 		-- To mimic the JS interface, we're expecting delayTime to be in ms
 		local intervalTimeMs = intervalTime / 1000
 
-		local delay
-		delay = function()
+		local delay_
+		delay_ = function()
 			delayImpl(intervalTimeMs, function()
 				if task[Status] == SCHEDULED then
 					callback(unpack(args))
-					delay()
+					delay_()
 				end
 			end)
 		end
 
-		delay()
+		delay_()
 
 		return task
 	end

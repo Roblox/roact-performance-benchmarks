@@ -14,4 +14,4 @@ Roact = { git = "https://github.com/roblox/roact-alignment.git", rev = "293eaac"
 Cryo = "github.com/Roblox/cryo@1.0.0"
 
 [dev_dependencies]
-JestRoblox = "github.com/roblox/jest-roblox@1.0.0"
+JestRoblox = "github.com/roblox/jest-roblox@0.7.1"
