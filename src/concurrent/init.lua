@@ -1,3 +1,3 @@
-local Concurrent = require(script.concurrent);
+local Concurrent = require(script.concurrent)
 
-return Concurrent;
+return Concurrent

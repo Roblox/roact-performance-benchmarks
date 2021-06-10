@@ -15,7 +15,7 @@ local COLORS = {
 local function Box(props)
 	return Roact.createElement("Frame", {
 		BackgroundColor3 = COLORS[props.color],
-		Size = UDim2.new(0.06, 0, 0.06, 0)
+		Size = UDim2.new(0.06, 0, 0.06, 0),
 	})
 end
 

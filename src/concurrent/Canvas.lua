@@ -10,7 +10,7 @@ local Array = LuauPolyfill.Array
 -- ROBLOX TODO: replace deep import when Rotriever handles submodules
 local forwardRef = require(Packages._Index.roact.roact.React.ReactForwardRef).forwardRef
 
-local Canvas = forwardRef(function (props, ref)
+local Canvas = forwardRef(function(props, ref)
 	local viewportRef = useRef()
 	local cameraRef_ = useRef()
 	local cameraRef = ref or cameraRef_
@@ -25,7 +25,7 @@ local Canvas = forwardRef(function (props, ref)
 
 	return Roact.createElement("ViewportFrame", {
 		Size = UDim2.new(0.8, 0, 0.8, 0),
-        Position = UDim2.new(0.1, 0, 0.1, 0),
+		Position = UDim2.new(0.1, 0, 0.1, 0),
 		BackgroundColor3 = Color3.fromRGB(0x27, 0x27, 0x37),
 		ref = viewportRef,
 	}, Array.concat({

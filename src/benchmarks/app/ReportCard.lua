@@ -15,7 +15,7 @@ local DivLike = function(props)
 end
 
 local ReportCard = function(props)
-    local sampleCountText = ""
+	local sampleCountText = ""
 	if props.sampleCount ~= nil then
 		sampleCountText = "(" .. props.sampleCount .. ")"
 	end
