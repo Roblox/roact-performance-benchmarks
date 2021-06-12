@@ -3,6 +3,9 @@
 local srcWorkspace = script.Parent.Parent
 local rootWorkspace = srcWorkspace.Parent
 local Packages = rootWorkspace.Packages
+local componentsWorkspace = srcWorkspace.components
+local hooksWorkspace = srcWorkspace.hooks
+
 local Roact = require(Packages.Roact)
 local useState = Roact.useState
 local useEffect = Roact.useEffect
@@ -16,9 +19,9 @@ local Array, setInterval, clearInterval = luaUtils.Array, luaUtils.setInterval, 
 local Scheduler = require(Packages._Index.roact.roact.Scheduler)
 local low, run = Scheduler.unstable_LowPriority, Scheduler.unstable_runWithPriority
 
-local useFrame = require(script.Parent.useFrame)
-local DivLike = require(script.Parent.DivLike)
-local Canvas = require(script.Parent.Canvas)
+local useFrame = require(hooksWorkspace.useFrame)
+local DivLike = require(componentsWorkspace.DivLike)
+local Canvas = require(componentsWorkspace.Canvas)
 
 -- ROBLOX deviation: because os.clock() returns a nr in seconds it's easier to
 -- use slowdown in seconds as well
@@ -69,6 +72,7 @@ local function Block(props)
 	})
 
 	return Roact.createElement("Part", {
+		Name = "Block",
 		Material = Enum.Material.Plastic,
 		Color = color,
 		Position = Vector3.new(table.unpack(props.position)),
@@ -144,7 +148,7 @@ local function FPS()
 		Position = UDim2.new(1, -10, 1, -10),
 		AnchorPoint = Vector2.new(1, 1),
 		Text = "...",
-		ref = ref,
+		[Roact.Ref] = ref,
 	})
 end
 
@@ -163,7 +167,8 @@ local function Box()
 		end
 	end)
 	return Roact.createElement("Part", {
-		ref = mesh,
+		Name = "Box",
+		[Roact.Ref] = mesh,
 		Material = Enum.Material.Rock,
 		Size = Vector3.new(2, 2, 2),
 		Color = Color3.new(math.random(), math.random(), math.random()),
@@ -191,7 +196,7 @@ local function Dolly(props)
 			)
 		end
 	end)
-	return nil
+	return Roact.createElement(DivLike)
 end
 
 local App = function()
@@ -212,4 +217,13 @@ local App = function()
 	)
 end
 
-return App
+return {
+	Concurrent = App,
+
+	Block = Block,
+	Blocks = Blocks,
+	FPS = FPS,
+	Box = Box,
+	AnimatedSpikes = AnimatedSpikes,
+	Dolly = Dolly,
+}

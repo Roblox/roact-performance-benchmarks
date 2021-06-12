@@ -1,8 +1,9 @@
-local PackagesWorkspace = script.Parent.Parent.Packages
+local rootWorkspace = script.Parent.Parent.Parent
+local PackagesWorkspace = rootWorkspace.Packages
 local Roact = require(PackagesWorkspace.Roact)
 
 local function bootstrap(rootInstance, component, props)
-	local root = Roact.createBlockingRoot(rootInstance)
+	local root = Roact.createLegacyRoot(rootInstance)
 	root:render(Roact.createElement(component, props))
 
 	return function()
