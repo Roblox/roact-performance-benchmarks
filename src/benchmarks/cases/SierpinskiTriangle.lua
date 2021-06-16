@@ -5,6 +5,9 @@ local Benchmarks = rootWorkspace.Src.Benchmarks
 local Roact = require(Packages.Roact)
 
 local Chromatic = require(Benchmarks.App.Benchmark.Chromatic)
+local interpolatePurples
+local interpolateBuPu
+local interpolateRdPu
 
 -- TODO: Move to benchmark init.
 local BenchmarkType = {

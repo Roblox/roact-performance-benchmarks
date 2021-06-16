@@ -43,7 +43,7 @@ local tests = {
 	["Mount deep tree"] = createTestBlock(function(components)
 		return {
 			benchmarkType = "mount",
-			Component = Tree,
+			Component = Tree.Tree,
 			getComponentProps = function()
 				return { breadth = 2, components = components, depth = 7, id = 0, wrap = 1 }
 			end,

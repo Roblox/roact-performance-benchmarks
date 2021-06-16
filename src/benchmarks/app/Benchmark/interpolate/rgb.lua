@@ -1,5 +1,11 @@
 -- TODO: Implement missing functions.
 
+local gamma
+local nogamma
+local colorRgb
+local basis
+local basisClosed
+
 local function rgbGamma(y)
 	local color = gamma(y)
 
@@ -32,11 +38,11 @@ local function rgbSpline(spline)
 		local n, r, g, b = colors.length, {}, {}, {}
 		local i, color
 
-		for i = 1, i <= n do
+		for j = 1, j <= n do
 			color = colorRgb(colors[i])
-			r[i] = color.r or 0
-			g[i] = color.g or 0
-			b[i] = color.b or 0
+			r[j] = color.r or 0
+			g[j] = color.g or 0
+			b[j] = color.b or 0
 		end
 
 		r = spline(r)

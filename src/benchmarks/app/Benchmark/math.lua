@@ -1,8 +1,8 @@
-local rootWorkspace = script.Parent.Parent.Parent
+local rootWorkspace = script.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
 local LuauPolyfill = require(Packages.LuauPolyfill)
-local Array = require(LuauPolyfill.Array)
+local Array = LuauPolyfill.Array
 
 type ValuesType = Array<number>
 
@@ -32,7 +32,7 @@ local getMedian = function(values: ValuesType): number
 	local numbers = Array.sort(values, function(a: number, b: number)
 		return a - b
 	end)
-	return ((numbers[bit32.rshift(#numbers - 1, 1)] + 1) + (numbers[bit32.rshift(#numbers, 1)] + 1)) / 2
+	return (numbers[bit32.rshift(#numbers - 1, 1) + 1] + numbers[bit32.rshift(#numbers, 1) + 1]) / 2
 end
 
 return {
