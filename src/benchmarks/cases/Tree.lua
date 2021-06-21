@@ -10,8 +10,11 @@ local BenchmarkType = {
 	UNMOUNT = "unmount",
 }
 
-local function Tree(props)
-	local breadth, components, depth, id, wrap = props.breadth, props.components, props.depth, props.id, props.wrap
+local Tree = Roact.Component:extend("Benchmark")
+
+function Tree:render()
+	local breadth, components, depth, id, wrap =
+		self.props.breadth, self.props.components, self.props.depth, self.props.id, self.props.wrap
 	local Box = components.Box
 
 	-- ROBLOX deviation: ternary isn't supported.
@@ -24,7 +27,13 @@ local function Tree(props)
 
 	local content
 	if depth == 0 then
-		content = { Roact.createElement(Box, { color = (id % 3) + 3, fixed = true }) }
+		content = {
+			Roact.createElement(Box, {
+				depth = depth,
+				color = (id % 3) + 3,
+				fixed = true,
+			}),
+		}
 	else
 		-- ROBLOX deviation: can't use Array.from() as upstream relies on duck
 		-- typing of "length" property to expand an object into an array the
@@ -38,17 +47,27 @@ local function Tree(props)
 					breadth = breadth,
 					components = components,
 					depth = depth - 1,
-					id = i,
-					key = i,
+					id = i - 1,
+					key = i - 1,
 					wrap = wrap,
 				})
 			)
 		end
 	end
 
-	local result = Roact.createElement(Box, { color = id % 3, layout = layout, outer = true }, content)
-	for i = 1, wrap do
-		result = Roact.createElement(Box, nil, { result })
+	local result = Roact.createElement(Box, {
+		Name = "Outer",
+		depth = depth,
+		color = id % 3,
+		layout = layout,
+		outer = true,
+	}, content)
+	for i = 1, (wrap + 1) do
+		result = Roact.createElement(Box, {
+			Name = "Box",
+			index = i,
+			depth = depth,
+		}, { result })
 	end
 	return result
 end

@@ -5,5 +5,5 @@ local Array = LuauPolyfill.Array
 local Object = LuauPolyfill.Object
 
 return Object.assign({}, Array, {
-    create = require(script.create),
+	create = require(script.create),
 })

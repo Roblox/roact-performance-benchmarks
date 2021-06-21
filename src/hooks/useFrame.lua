@@ -1,15 +1,15 @@
-local rootWorkspace = script.Parent.Parent.Parent
+local srcWorkspace = script.Parent.Parent
+local rootWorkspace = srcWorkspace.Parent
 local Packages = rootWorkspace.Packages
 
 local Roact = require(Packages.Roact)
 local useEffect = Roact.useEffect
-local RunService = game:GetService("RunService")
+local RunService = require(srcWorkspace.utils.RunService)
+local HttpService = game:GetService("HttpService")
 
-local count = 0
 local function useFrame(onFrame)
 	useEffect(function()
-		count += 1
-		local name = "FPS Counter" .. count
+		local name = HttpService:GenerateGUID()
 		RunService:BindToRenderStep(name, Enum.RenderPriority.First.Value, onFrame)
 
 		return function()

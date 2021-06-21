@@ -16,4 +16,4 @@ Scheduler = { git = "https://github.com/roblox/roact-alignment.git", rev = "mast
 Cryo = "github.com/Roblox/cryo@1.0.0"
 
 [dev_dependencies]
-JestRoblox = "github.com/roblox/jest-roblox@1.0.0"
+JestRoblox = "github.com/roblox/jest-roblox@=1.0.0"

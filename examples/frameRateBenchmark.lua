@@ -1,17 +1,16 @@
 return function()
-	local PackagesWorkspace = script.Parent.Parent.Packages
+	local rootWorkspace = script.Parent.Parent
+	local srcWorkspace = rootWorkspace.Src
+	local PackagesWorkspace = rootWorkspace.Packages
 	local Roact = require(PackagesWorkspace.Roact)
 	local Array = require(PackagesWorkspace.LuauPolyfill).Array
-	local Concurrent = require(script.Parent.Parent.Src.concurrent)
-	local useFrame = require(script.Parent.Parent.Src.concurrent.useFrame)
+	local Concurrent = require(srcWorkspace.concurrent)
+	local useFrame = require(srcWorkspace.hooks.useFrame)
 	local bootstrap = require(script.Parent.bootstrap)
 	local calculateStats = require(script.Parent.calculateStats)
 
 	local rootInstance = Instance.new("Folder")
 	rootInstance.Name = "GuiRoot"
-	local start
-	local sum = 0
-	local min, max
 
 	local fpsValue = {}
 	local values = {}
@@ -48,10 +47,9 @@ return function()
 		})
 	end
 
-	start = os.clock()
-	_stop = bootstrap(rootInstance, Benchmark, {
-		Stop = stop,
-	})
+	local stop = bootstrap(rootInstance, Benchmark)
 
 	wait(10)
+
+	stop()
 end

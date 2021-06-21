@@ -1,5 +1,5 @@
 {
-  "name": "Concurrent",
+  "name": "PerformanceBenchmarks",
   "tree": {
     "$path": "src"
   }

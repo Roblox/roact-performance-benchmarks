@@ -13,16 +13,16 @@ local function bootstrap(component, props)
 	local root = ReactRoblox.createBlockingRoot(rootInstance)
 	root:render(Roact.createElement(component, props))
 
-	return function ()
+	return function()
 		root:unmount()
 		rootInstance.Parent = nil
 	end
 end
 
 local function stop()
-	_stop();
+	_stop()
 end
 
 _stop = bootstrap(Concurrent, {
-	Stop = stop
-});
+	Stop = stop,
+})

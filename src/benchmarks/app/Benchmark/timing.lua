@@ -1,7 +1,7 @@
-local NS_PER_MS = 1e6
-local MS_PER_S = 1e3
-
 local function now(): number
+	-- ROBLOX deviation: os.clock returns seconds with microsecond precision
+	-- and upstream uses window.performance.now() which returns milliseconds.
+	return os.clock() * 1000
 end
 
-return now
+return { now = now }

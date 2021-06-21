@@ -10,8 +10,9 @@ echo "Remove .robloxrc from dev dependencies"
 find Packages/Dev -name "*.robloxrc" | xargs rm -f
 find Packages/_Index -name "*.robloxrc" | xargs rm -f
 
+# echo "Run static analysis"
 # roblox-cli analyze ci.project.json
-selene src
+# selene src
 
 clear && printf '\e[3J'
 

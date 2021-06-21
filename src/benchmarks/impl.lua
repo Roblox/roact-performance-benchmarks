@@ -6,10 +6,10 @@ local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 local Array = LuauPolyfill.Array
 
+local roact = require(Implementations.roact)
+
 -- ROBLOX deviation: packages to test aren't pulled from a config file.
-local dependencies = {
-	roact = Implementations.roact,
-}
+local dependencies = { roact = roact }
 
 type ComponentsType = { [string]: any }
 
@@ -23,10 +23,10 @@ local toImplementations = function(dependencies): Array<ImplementationType>
 	return Array.map(Object.keys(dependencies), function(dependency)
 		local implementation = dependencies[dependency]
 		local components = {
-			require(implementation.Box),
-			require(implementation.Dot),
-			require(implementation.Provider),
-			require(implementation.TextBox),
+			Box = implementation.Box,
+			Dot = implementation.Dot,
+			Provider = implementation.Provider,
+			TextBox = implementation.TextBox,
 		}
 		local name = dependency
 		local version = "?"
