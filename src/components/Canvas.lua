@@ -23,12 +23,12 @@ local Canvas = forwardRef(function(props, ref)
 			Size = UDim2.new(0.8, 0, 0.8, 0),
 			Position = UDim2.new(0.1, 0, 0.1, 0),
 			BackgroundColor3 = Color3.fromRGB(0x27, 0x27, 0x37),
-			[Roact.Ref] = viewportRef,
+			ref = viewportRef,
 		},
 		Array.concat({
 			Roact.createElement("Camera", {
 				CFrame = CFrame.new(Vector3.new(0, 0, 6), Vector3.new(0, 0, 0)),
-				[Roact.Ref] = cameraRef,
+				ref = cameraRef,
 			}),
 		}, props.children)
 	)

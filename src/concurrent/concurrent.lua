@@ -148,7 +148,7 @@ local function FPS()
 		Position = UDim2.new(1, -10, 1, -10),
 		AnchorPoint = Vector2.new(1, 1),
 		Text = "...",
-		[Roact.Ref] = ref,
+		ref = ref,
 	})
 end
 
@@ -168,7 +168,7 @@ local function Box()
 	end)
 	return Roact.createElement("Part", {
 		Name = "Box",
-		[Roact.Ref] = mesh,
+		ref = mesh,
 		Material = Enum.Material.Rock,
 		Size = Vector3.new(2, 2, 2),
 		Color = Color3.new(math.random(), math.random(), math.random()),
