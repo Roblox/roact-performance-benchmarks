@@ -3,6 +3,7 @@ local Packages = rootWorkspace.Packages
 
 local Cryo = require(Packages.Cryo)
 local Roact = require(Packages.Roact)
+local ReactRoblox = require(Packages.ReactRoblox)
 
 local Button = function(props)
 	local color
@@ -16,7 +17,7 @@ local Button = function(props)
 		"TextButton",
 		Cryo.Dictionary.join(props, {
 			BackgroundColor3 = color,
-			[Roact.Event.Activated] = props.onPress,
+			[ReactRoblox.Event.Activated] = props.onPress,
 		})
 	)
 end

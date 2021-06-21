@@ -5,6 +5,7 @@ local Benchmarks = rootWorkspace.Benchmarks
 local Workspace = game:GetService("Workspace")
 local Cryo = require(Packages.Cryo)
 local Roact = require(Packages.Roact)
+local ReactRoblox = require(Packages.ReactRoblox)
 local useState = Roact.useState
 local useRef = Roact.useRef
 local LuauPolyfill = require(Packages.LuauPolyfill)
@@ -154,7 +155,7 @@ local App = function(props)
 					Text = statusText,
 					BackgroundColor3 = Color3.new(0, 1, 0),
 					Active = not disableButtons,
-					[Roact.Event.Activated] = handleStart,
+					[ReactRoblox.Event.Activated] = handleStart,
 				}),
 			}),
 		}),
@@ -167,7 +168,7 @@ local App = function(props)
 				Text = "Clear", -- TODO: replace with icon
 				BackgroundColor3 = Color3.new(1, 0, 0),
 				Active = not disableButtons,
-				[Roact.Event.Activated] = handleClear,
+				[ReactRoblox.Event.Activated] = handleClear,
 			}),
 			Roact.createElement("ScrollingFrame", {
 				-- TODO: styles
