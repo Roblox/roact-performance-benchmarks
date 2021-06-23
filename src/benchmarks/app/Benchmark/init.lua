@@ -1,28 +1,29 @@
-local rootWorkspace = script.Parent.Parent.Parent
+local rootWorkspace = script.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
+local Cryo = require(Packages.Cryo)
 local Roact = require(Packages.Roact)
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
 local Boolean = LuauPolyfill.Boolean
 
-local Timing = require(rootWorkspace.Benchmarks.app.Benchmark.timing)
-local Math = require(rootWorkspace.Benchmarks.app.Benchmark.math)
+local Timing = require(script.Parent.Benchmark.timing)
+local Math = require(script.Parent.Benchmark.math)
 
 local RunService = game:GetService("RunService")
 
-local BenchmarkType = {
+local BenchmarkType: BenchmarkType = {
 	MOUNT = "mount",
 	UPDATE = "update",
 	UNMOUNT = "unmount",
 }
 
-local function shouldRender(cycle: number, type: string): boolean
-	if type == BenchmarkType.MOUNT or type == BenchmarkType.UNMOUNT then
+local function shouldRender(cycle: number, benchmarkType: string): boolean
+	if benchmarkType == BenchmarkType.MOUNT or benchmarkType == BenchmarkType.UNMOUNT then
 		-- Render every odd iteration (first, third, etc)
 		-- Mounts and unmounts the component
 		return ((cycle + 1) % 2) == 0
-	elseif type == BenchmarkType.UPDATE then
+	elseif benchmarkType == BenchmarkType.UPDATE then
 		-- Render every iteration (updates previously rendered module)
 		return true
 	else
@@ -30,14 +31,14 @@ local function shouldRender(cycle: number, type: string): boolean
 	end
 end
 
-local function shouldRecord(cycle: number, type: string): boolean
-	if type == BenchmarkType.MOUNT then
+local function shouldRecord(cycle: number, benchmarkType: string): boolean
+	if benchmarkType == BenchmarkType.MOUNT then
 		-- Record every odd iteration (when mounted: first, third, etc)
 		return ((cycle + 1) % 2) == 0
-	elseif type == BenchmarkType.UPDATE then
+	elseif benchmarkType == BenchmarkType.UPDATE then
 		-- Record every iteration
 		return true
-	elseif type == BenchmarkType.UNMOUNT then
+	elseif benchmarkType == BenchmarkType.UNMOUNT then
 		-- Record every even iteration (when unmounted)
 		return (cycle % 2) == 0
 	else
@@ -47,12 +48,12 @@ end
 
 -- ROBLOX deviation: new function is needed as we need to know the amount of
 -- samples we're going to have for constructing the table.
-local function getCycleCount(sampleCount: number, type: string): number
-	if type == BenchmarkType.MOUNT then
+local function getCycleCount(sampleCount: number, benchmarkType: string): number
+	if benchmarkType == BenchmarkType.MOUNT then
 		return sampleCount * 2
-	elseif type == BenchmarkType.UPDATE then
+	elseif benchmarkType == BenchmarkType.UPDATE then
 		return sampleCount
-	elseif type == BenchmarkType.UNMOUNT then
+	elseif benchmarkType == BenchmarkType.UNMOUNT then
 		return sampleCount * 2 + 1
 	else
 		return 0
@@ -60,9 +61,13 @@ local function getCycleCount(sampleCount: number, type: string): number
 end
 
 -- ROBLOX deviation: re-use cycle count code.
-local function isDone(cycle: number, sampleCount: number, type: string): boolean
-	if type == BenchmarkType.MOUNT or type == BenchmarkType.UPDATE or type == BenchmarkType.UNMOUNT then
-		return cycle >= getCycleCount(sampleCount, type)
+local function isDone(cycle: number, sampleCount: number, benchmarkType: string): boolean
+	if
+		benchmarkType == BenchmarkType.MOUNT
+		or benchmarkType == BenchmarkType.UPDATE
+		or benchmarkType == BenchmarkType.UNMOUNT
+	then
+		return cycle >= getCycleCount(sampleCount, benchmarkType)
 	else
 		return true
 	end
@@ -75,15 +80,15 @@ end
 type BenchmarkPropsType = {
 	component: any, -- Should be a Roact component
 	forceLayout: boolean?,
-	getComponentProps: Function,
-	onComplete: any, -- Should be a function signature
+	getComponentProps: ({ [any]: any }) -> { [any]: any },
+	onComplete: (BenchResultsType) -> (),
 	sampleCount: number,
 	timeout: number,
-	type: string, -- Should be one of BenchmarkType
+	type: string,
 }
 
 type BenchmarkStateType = {
-	componentProps: table,
+	componentProps: { [any]: any },
 	cycle: number,
 	running: boolean,
 }
@@ -120,25 +125,19 @@ end
 function Benchmark.getDerivedStateFromProps(nextProps, prevState)
 	if nextProps ~= nil then
 		return {
-			componentProps = nextProps.getComponentProps(prevState.cycle),
+			componentProps = nextProps.getComponentProps({ cycle = prevState.cycle }),
 		}
 	end
-end
-
-function Benchmark:componentWillUpdate(nextProps, nextState)
-	if nextState.running and not self.state.running then
-		self._startTime = Timing.now()
-		self._timeout = self._startTime + nextProps.timeout
-	end
+	return nil
 end
 
 function Benchmark:componentDidUpdate()
-	local forceLayout, sampleCount, type = self.props.forceLayout, self.props.sampleCount, self.props.type
+	local forceLayout, sampleCount, benchmarkType = self.props.forceLayout, self.props.sampleCount, self.props.type
 	local cycle, running = self.state.cycle, self.state.running
 
 	print("update cycle = " .. cycle .. ", sample = " .. tostring(self._samples[cycle]))
 
-	if running and shouldRecord(cycle, type) then
+	if running and shouldRecord(cycle, benchmarkType) then
 		self._samples[cycle].scriptingEnd = Timing.now()
 
 		-- TODO: Original source forces a re-calc here. Is there a way to force
@@ -153,7 +152,7 @@ function Benchmark:componentDidUpdate()
 	if running then
 		local now = Timing.now()
 
-		if not isDone(cycle, sampleCount, type) and (now < self._timeout or self._timeout <= 0) then
+		if not isDone(cycle, sampleCount, benchmarkType) and (now < self._timeout or self._timeout <= 0) then
 			self:_handleCycleComplete()
 		else
 			self:_handleComplete(now)
@@ -166,17 +165,19 @@ function Benchmark:componentWillUnmount()
 end
 
 function Benchmark:render()
-	local component, type = self.props.component, self.props.type
+	local component, benchmarkType = self.props.component, self.props.type
 	local componentProps, cycle, running = self.state.componentProps, self.state.cycle, self.state.running
 
-	if running and shouldRecord(cycle, type) then
+	if running and shouldRecord(cycle, benchmarkType) then
 		self._samples[cycle] = { scriptingStart = Timing.now() }
 	end
 
-	if running and shouldRender(cycle, type) then
-		return Roact.createElement(component, componentProps)
+	local props = Cryo.Dictionary.join(componentProps, { anchorPoint = Vector2.new(0.5, 0.5) })
+
+	if running and shouldRender(cycle, benchmarkType) then
+		return Roact.createElement(component, props)
 	elseif not running then
-		return Roact.createElement(component, componentProps)
+		return Roact.createElement(component, props)
 	else
 		return nil
 	end
@@ -193,10 +194,6 @@ function Benchmark:stop()
 	end
 
 	self._render_step = nil
-	self._startTime = nil
-	self._samples = nil
-	self._startTime = 0
-	self._samples = {}
 
 	self:setState(function()
 		return {
@@ -207,16 +204,21 @@ function Benchmark:stop()
 end
 
 function Benchmark:start()
-	local type, sampleCount = self.props.type, self.props.sampleCount
+	local benchmarkType, sampleCount = self.props.type, self.props.sampleCount
 
 	-- Fill the samples table with how many samples we expect so length checks
 	-- work as expected after the benchmark finishes.
 	self._samples = {}
-	for i = 1, getCycleCount(sampleCount, type) do
+	for i = 1, getCycleCount(sampleCount, benchmarkType) do
 		table.insert(self._samples, false)
 	end
 
 	self:setState(function()
+		if not self.state.running then
+			self._startTime = Timing.now()
+			self._timeout = self._startTime + self.props.timeout
+		end
+
 		return {
 			running = true,
 			cycle = 1,
@@ -262,13 +264,13 @@ function Benchmark:getSamples()
 end
 
 function Benchmark:_handleCycleComplete()
-	local getComponentProps, type = self.props.getComponentProps, self.props.type
+	local getComponentProps, benchmarkType = self.props.getComponentProps, self.props.type
 	local cycle = self.state.cycle
 
 	local componentProps
 	if getComponentProps ~= nil then
 		componentProps = getComponentProps({ cycle = cycle })
-		if type == BenchmarkType.UPDATE then
+		if benchmarkType == BenchmarkType.UPDATE then
 			componentProps["data-test"] = cycle
 		end
 	end

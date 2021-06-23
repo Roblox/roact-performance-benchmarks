@@ -1,10 +1,10 @@
 -- TODO: Implement missing functions.
 
-local gamma
-local nogamma
-local colorRgb
-local basis
-local basisClosed
+local gamma = nil
+local nogamma = nil
+local colorRgb = nil
+local basis = nil
+local basisClosed = nil
 
 local function rgbGamma(y)
 	local color = gamma(y)
@@ -28,32 +28,30 @@ local function rgbGamma(y)
 		end
 	end
 
-	rgb.gamma = rgbGamma
-
-	return rgb
+	-- ROBLOX deviation: we can't assign a property to a function in lua. Return
+	-- a table with both the function and the properties instead.
+	return { fn = rgb, gamma = rgbGamma }
 end
 
 local function rgbSpline(spline)
 	return function(colors)
 		local n, r, g, b = colors.length, {}, {}, {}
-		local i, color
+		local color
 
-		for j = 1, j <= n do
+		for i = 1, n do
 			color = colorRgb(colors[i])
-			r[j] = color.r or 0
-			g[j] = color.g or 0
-			b[j] = color.b or 0
+			r[i] = color.r or 0
+			g[i] = color.g or 0
+			b[i] = color.b or 0
 		end
 
-		r = spline(r)
-		g = spline(g)
-		b = spline(b)
+		local rSpline, gSpline, bSpline = spline(r), spline(g), spline(b)
 		color.opacity = 1
 
 		return function(t)
-			color.r = r(t)
-			color.g = g(t)
-			color.b = b(t)
+			color.r = rSpline(t)
+			color.g = gSpline(t)
+			color.b = bSpline(t)
 			return color .. ""
 		end
 	end

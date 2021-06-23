@@ -1,6 +1,6 @@
 local PlayerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 local Roact = require(game.ReplicatedStorage.Packages.Roact)
-local Benchmarks = require(game.ReplicatedStorage.Benchmarks)
+local Benchmarks = require(game.ReplicatedStorage.Src.benchmarks)
 
 local _stop
 

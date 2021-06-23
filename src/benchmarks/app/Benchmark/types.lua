@@ -3,12 +3,14 @@ export type BenchResultsType = {
 	endTime: number,
 	runTime: number,
 	sampleCount: number,
-	samples: Array<FullSampleTimingType>,
+	samples: { FullSampleTimingType? },
 	max: number,
 	min: number,
 	median: number,
 	mean: number,
 	stdDev: number,
+	meanLayout: number,
+	meanScripting: number,
 }
 
 export type SampleTimingType = {
@@ -26,5 +28,7 @@ export type FullSampleTimingType = {
 	layoutStart: number?,
 	layoutEnd: number?,
 }
+
+export type BenchmarkType = { [string]: string }
 
 return {}

@@ -5,7 +5,7 @@ return function()
 	local packagesWorkspace = rootWorkspace.Packages
 
 	local JestRoblox = require(packagesWorkspace.Dev.JestRoblox)
-	local expect = JestRoblox.Globals.expect
+	local jestExpect = JestRoblox.Globals.expect
 	local jest = JestRoblox.Globals.jest
 
 	-- ROBLOX TODO: replace deep import when Rotriever handles submodules
@@ -17,7 +17,7 @@ return function()
 		local bootstrapSync
 		local useFrame
 		local RunService
-		local stop
+		local _stop
 
 		beforeEach(function()
 			RobloxJest.resetModules()
@@ -30,7 +30,7 @@ return function()
 			end)
 
 			--[[
-                because we reset modules for each test we need to reimport 
+                because we reset modules for each test we need to reimport
                 - Roact
                 - bootstrapSync
                 so that they use the same Roact instance as `useFrame`
@@ -46,16 +46,17 @@ return function()
 		end)
 
 		it("should call BindToRenderStep", function()
-			rootInstance = Instance.new("Folder")
+			local rootInstance = Instance.new("Folder")
 			rootInstance.Name = "GuiRoot"
 
 			local stop = bootstrapSync(rootInstance, function()
-				useFrame(function() end)
+				useFrame(function()
+				end)
 				return Roact.createElement("Folder")
 			end)
 
 			wait()
-			expect(RunService.BindToRenderStep).toHaveBeenCalledTimes(1)
+			jestExpect(RunService.BindToRenderStep).toHaveBeenCalledTimes(1)
 		end)
 	end)
 end

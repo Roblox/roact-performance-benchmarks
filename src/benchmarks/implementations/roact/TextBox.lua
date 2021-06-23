@@ -1,4 +1,4 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent
+local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
 local Roact = require(Packages.Roact)

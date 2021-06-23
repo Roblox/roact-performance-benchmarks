@@ -1,12 +1,11 @@
-local rootWorkspace = script.Parent.Parent
+local rootWorkspace = script.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
-local Implementations = rootWorkspace.Benchmarks.implementations
 
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 local Array = LuauPolyfill.Array
 
-local roact = require(Implementations.roact)
+local roact = require(script.Parent.implementations.roact)
 
 -- ROBLOX deviation: packages to test aren't pulled from a config file.
 local dependencies = { roact = roact }
@@ -15,13 +14,13 @@ type ComponentsType = { [string]: any }
 
 type ImplementationType = {
 	components: ComponentsType,
-	name: String,
-	version: String,
+	name: string,
+	version: string,
 }
 
-local toImplementations = function(dependencies): Array<ImplementationType>
-	return Array.map(Object.keys(dependencies), function(dependency)
-		local implementation = dependencies[dependency]
+local toImplementations = function(deps): { ImplementationType }
+	return Array.map(Object.keys(deps), function(dependency: string)
+		local implementation = deps[dependency]
 		local components = {
 			Box = implementation.Box,
 			Dot = implementation.Dot,
@@ -34,7 +33,7 @@ local toImplementations = function(dependencies): Array<ImplementationType>
 	end)
 end
 
-local toObject = function(impls: Array<ImplementationType>)
+local toObject = function(impls)
 	return Array.reduce(impls, function(acc, impl)
 		acc[impl.name] = impl
 		return acc

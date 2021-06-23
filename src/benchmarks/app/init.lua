@@ -1,9 +1,8 @@
-local rootWorkspace = script.Parent.Parent
+local rootWorkspace = script.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
-local Benchmarks = rootWorkspace.Benchmarks
+local Benchmarks = rootWorkspace.Src.benchmarks
 
 local Workspace = game:GetService("Workspace")
-local Cryo = require(Packages.Cryo)
 local Roact = require(Packages.Roact)
 local useState = Roact.useState
 local useRef = Roact.useRef
@@ -13,11 +12,6 @@ local Array = LuauPolyfill.Array
 
 local Button = require(Benchmarks.app.Button)
 local Benchmark = require(Benchmarks.app.Benchmark)
-
--- TODO: This might need to be something else that sinks input.
-local Overlay = function()
-	return Roact.createElement("Frame", { Name = "Overlay" })
-end
 
 -- ROBLOX deviation: no context object available, use props.
 local App = function(props)
@@ -88,7 +82,6 @@ local App = function(props)
 	-- ROBLOX deviation: ternary operators aren't supported.
 
 	local statusText
-	local overlay
 
 	local benchmark = Roact.createElement(Benchmark, {
 		component = Component,
@@ -107,10 +100,8 @@ local App = function(props)
 
 	if status == "running" then
 		statusText = "Running…"
-		overlay = Roact.createElement(Overlay, nil)
 	else
 		statusText = "Run"
-		overlay = nil
 	end
 
 	local disableButtons = status == "running"
@@ -120,7 +111,7 @@ local App = function(props)
 			-- Pickers
 			Roact.createElement("Frame", {
 				Name = "InputContainer",
-				Position = UDim2.new(1, 0, 1, 400),
+				Position = UDim2.new(1, 0, 1, 300),
 			}, {
 				Roact.createElement("TextLabel", {
 					Name = "LibraryLabel",
@@ -169,25 +160,6 @@ local App = function(props)
 				Active = not disableButtons,
 				[Roact.Event.Activated] = handleClear,
 			}),
-			Roact.createElement("ScrollingFrame", {
-				-- TODO: styles
-			}, {
-				-- Array.map(results, function(r, i)
-				-- 	return Roact.createElement(ReportCard, {
-				-- 		benchmarkName = r.benchmarkName,
-				-- 		key = i,
-				-- 		libraryName = r.libraryName,
-				-- 		libraryVersion = r.libraryVersion,
-				-- 		mean = r.mean,
-				-- 		meanLayout = r.meanLayout,
-				-- 		meanScripting = r.meanScripting,
-				-- 		runTime = r.runTime,
-				-- 		sampleCount = r.sampleCount,
-				-- 		stdDev = r.stdDev,
-				-- 	})
-				-- end),
-			}),
-			overlay,
 		}),
 		ViewPanel = Roact.createElement("Frame", {
 			Position = UDim2.new(
@@ -201,7 +173,12 @@ local App = function(props)
 			Roact.createElement(Provider, nil, {
 				BenchWrapper = Roact.createElement("Frame", {
 					Name = "BenchWrapper",
-					Position = UDim2.new(0, 320, 0, 240),
+					Position = UDim2.new(
+						0,
+						Workspace.CurrentCamera.ViewportSize.X / 2,
+						0,
+						Workspace.CurrentCamera.ViewportSize.Y / 2
+					),
 				}, {
 					benchmark,
 				}),

@@ -77,3 +77,10 @@ type = "function"
 [SKIP]
 args = []
 
+[[xdescribe.args]]
+type = "string"
+required = true
+
+[[xdescribe.args]]
+type = "function"
+required = true

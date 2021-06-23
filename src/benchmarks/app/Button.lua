@@ -1,4 +1,4 @@
-local rootWorkspace = script.Parent.Parent.Parent
+local rootWorkspace = script.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
 local Cryo = require(Packages.Cryo)
@@ -9,8 +9,6 @@ local Button = function(props)
 	if not props.Active then
 		color = Color3.new(0.286274, 0.286274, 0.286274)
 	end
-
-	print(props.Active)
 
 	return Roact.createElement(
 		"TextButton",
