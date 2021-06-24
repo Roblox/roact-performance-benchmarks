@@ -2,6 +2,8 @@
 
 set -ex
 
+echo "Install dependencies"
+rotrieve install
 echo "Build project"
 rojo build tests.project.json --output model.rbxmx
 echo "Remove .robloxrc from dev dependencies"
