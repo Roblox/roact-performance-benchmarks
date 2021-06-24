@@ -1,6 +1,6 @@
 local rootWorkspace = game:GetService("ReplicatedStorage")
 local Packages = rootWorkspace.Packages
-local Benchmarks = rootWorkspace.Benchmarks
+local Benchmarks = rootWorkspace.Src.benchmarks
 
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
@@ -54,7 +54,7 @@ local tests = {
 	-- ["Mount wide tree"] = createTestBlock(function(components)
 	-- 	return {
 	-- 		benchmarkType = "mount",
-	-- 		Component = Tree,
+	-- 		Component = Tree.Tree,
 	-- 		getComponentProps = function()
 	-- 			return { breadth = 6, components = components, depth = 3, id = 0, wrap = 2 }
 	-- 		end,
@@ -65,7 +65,7 @@ local tests = {
 	-- ["Update dynamic styles"] = createTestBlock(function(components)
 	-- 	return {
 	-- 		benchmarkType = "update",
-	-- 		Component = SierpinskiTriangle,
+	-- 		Component = SierpinskiTriangle.SierpinskiTriangle,
 	-- 		getComponentProps = function(props)
 	-- 			return { components = components, s = 200, renderCount = props.cycle, x = 0, y = 0 }
 	-- 		end,
@@ -76,7 +76,7 @@ local tests = {
 	-- ["Mount text tree"] = createTestBlock(function(components)
 	-- 	return {
 	-- 		benchmarkType = "mount",
-	-- 		Component = TextTree,
+	-- 		Component = TextTree.TextTree,
 	-- 		getComponentProps = function()
 	-- 			return { breadth = 6, components = components, depth = 3, id = 0, wrap = 2 }
 	-- 		end,

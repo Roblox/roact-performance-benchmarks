@@ -5,7 +5,7 @@ return function()
 	local PackagesWorkspace = rootWorkspace.Packages
 
 	local JestRoblox = require(PackagesWorkspace.Dev.JestRoblox)
-	local expect = JestRoblox.Globals.expect
+	local jestExpect = JestRoblox.Globals.expect
 
 	local LuauPolyfill = require(PackagesWorkspace.LuauPolyfill)
 	local Array = LuauPolyfill.Array
@@ -34,7 +34,7 @@ return function()
 				return item.Name == "Block"
 			end)
 
-			expect(count).toBe(600)
+			jestExpect(count).toBe(600)
 		end)
 
 		it("should render Boxes", function()
@@ -43,7 +43,7 @@ return function()
 				return item.Name == "Box"
 			end)
 
-			expect(count).toBe(1000)
+			jestExpect(count).toBe(1000)
 		end)
 	end)
 end

@@ -5,10 +5,7 @@ return function()
 	local PackagesWorkspace = rootWorkspace.Packages
 
 	local JestRoblox = require(PackagesWorkspace.Dev.JestRoblox)
-	local expect = JestRoblox.Globals.expect
-
-	local LuauPolyfill = require(PackagesWorkspace.LuauPolyfill)
-	local Array = LuauPolyfill.Array
+	local jestExpect = JestRoblox.Globals.expect
 
 	local Roact = require(PackagesWorkspace.Roact)
 	local useRef = Roact.useRef
@@ -18,22 +15,22 @@ return function()
 
 	describe("Concurrent example tests", function()
 		local rootInstance
-		local stop
+		local _stop
 
 		it("should pass ref to Canvas", function()
 			rootInstance = Instance.new("Folder")
 			rootInstance.Name = "GuiRoot"
 			local cameraRef
 
-			stop = bootstrapSync(rootInstance, function()
+			_stop = bootstrapSync(rootInstance, function()
 				cameraRef = useRef()
 				return Roact.createElement(Canvas, {
 					ref = cameraRef,
 				})
 			end)
 
-			expect(cameraRef.current).toBeDefined()
-			expect(cameraRef.current:isA("Camera")).toBe(true)
+			jestExpect(cameraRef.current).toBeDefined()
+			jestExpect(cameraRef.current:isA("Camera")).toBe(true)
 		end)
 
 		it("should attach Camera to ViewportFrame", function()
@@ -41,7 +38,7 @@ return function()
 			rootInstance.Name = "GuiRoot"
 			local cameraRef
 
-			stop = bootstrapSync(rootInstance, function()
+			_stop = bootstrapSync(rootInstance, function()
 				cameraRef = useRef()
 				return Roact.createElement(Canvas, {
 					ref = cameraRef,
@@ -52,9 +49,9 @@ return function()
 
 			wait()
 
-			expect(viewPortFrame).toBeDefined()
-			expect(viewPortFrame.CurrentCamera).toBeDefined()
-			expect(viewPortFrame.CurrentCamera).toBe(cameraRef.current)
+			jestExpect(viewPortFrame).toBeDefined()
+			jestExpect(viewPortFrame.CurrentCamera).toBeDefined()
+			jestExpect(viewPortFrame.CurrentCamera).toBe(cameraRef.current)
 		end)
 	end)
 end

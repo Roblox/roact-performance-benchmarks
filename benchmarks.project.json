@@ -9,8 +9,8 @@
       "Packages": {
         "$path": "Packages"
       },
-      "Benchmarks": {
-        "$path": "src/benchmarks"
+      "Src": {
+        "$path": "src"
       }
     },
 
