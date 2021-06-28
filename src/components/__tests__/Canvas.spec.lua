@@ -25,7 +25,7 @@ return function()
 			_stop = bootstrapSync(rootInstance, function()
 				cameraRef = useRef()
 				return Roact.createElement(Canvas, {
-					[Roact.Ref] = cameraRef,
+					ref = cameraRef,
 				})
 			end)
 
@@ -41,7 +41,7 @@ return function()
 			_stop = bootstrapSync(rootInstance, function()
 				cameraRef = useRef()
 				return Roact.createElement(Canvas, {
-					[Roact.Ref] = cameraRef,
+					ref = cameraRef,
 				})
 			end)
 

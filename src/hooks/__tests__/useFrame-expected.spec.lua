@@ -2,14 +2,15 @@ return function()
 	local hooksWorkspace = script.Parent.Parent
 	local srcWorkspace = hooksWorkspace.Parent
 	local rootWorkspace = srcWorkspace.Parent
-	local packagesWorkspace = rootWorkspace.Packages
+	local PackagesWorkspace = rootWorkspace.Packages
 
-	local JestRoblox = require(packagesWorkspace.Dev.JestRoblox)
+	local JestRoblox = require(PackagesWorkspace.Dev.JestRoblox)
 	local jestExpect = JestRoblox.Globals.expect
 	local jest = JestRoblox.Globals.jest
 
-	-- ROBLOX TODO: replace deep import when Rotriever handles submodules
-	local RobloxJest = require(packagesWorkspace._Index.roact.roact.RobloxJest)
+	-- ROBLOX TODO: replace this functionality; roact-alignment should probably
+	-- not actually allow this to be consumed by external users
+	local RobloxJest = require(PackagesWorkspace.Dev.RobloxJest)
 
 	-- ROBLOX FIX: unskip when mocking works correctly
 	xdescribe("useFrame expected", function()
@@ -35,7 +36,7 @@ return function()
                 - bootstrapSync
                 so that they use the same Roact instance as `useFrame`
             ]]
-			Roact = require(packagesWorkspace.Roact)
+			Roact = require(PackagesWorkspace.Roact)
 			bootstrapSync = require(srcWorkspace.testUtils.bootstrapSync)
 			useFrame = require(hooksWorkspace.useFrame)
 			RunService = require(srcWorkspace.utils.RunService)

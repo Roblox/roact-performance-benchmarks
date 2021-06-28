@@ -1,9 +1,10 @@
 local rootWorkspace = script.Parent.Parent.Parent
 local PackagesWorkspace = rootWorkspace.Packages
 local Roact = require(PackagesWorkspace.Roact)
+local ReactRoblox = require(PackagesWorkspace.ReactRoblox)
 
 local function bootstrap(rootInstance, component, props)
-	local root = Roact.createLegacyRoot(rootInstance)
+	local root = ReactRoblox.createLegacyRoot(rootInstance)
 	root:render(Roact.createElement(component, props))
 
 	return function()

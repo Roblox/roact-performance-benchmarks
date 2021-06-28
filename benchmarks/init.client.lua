@@ -1,6 +1,7 @@
 local PlayerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 local Roact = require(game.ReplicatedStorage.Packages.Roact)
-local Benchmarks = require(game.ReplicatedStorage.Src.benchmarks)
+local ReactRoblox = require(game.ReplicatedStorage.Packages.ReactRoblox)
+local Benchmarks = require(game.ReplicatedStorage.Src.Benchmarks)
 
 local _stop
 
@@ -9,7 +10,7 @@ local function bootstrap(component, props)
 	rootInstance.Name = "GuiRoot"
 	rootInstance.Parent = PlayerGui
 
-	local root = Roact.createLegacyRoot(rootInstance)
+	local root = ReactRoblox.createBlockingRoot(rootInstance)
 	root:render(Roact.createElement(component, props))
 
 	return function()

@@ -1,5 +1,6 @@
 local PlayerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 local Roact = require(game.ReplicatedStorage.Packages.Roact)
+local ReactRoblox = require(game.ReplicatedStorage.Packages.ReactRoblox)
 local Concurrent = require(game.ReplicatedStorage.Src.concurrent)
 
 local _stop
@@ -9,7 +10,7 @@ local function bootstrap(component, props)
 	rootInstance.Name = "GuiRoot"
 	rootInstance.Parent = PlayerGui
 
-	local root = Roact.createBlockingRoot(rootInstance)
+	local root = ReactRoblox.createBlockingRoot(rootInstance)
 	root:render(Roact.createElement(component, props))
 
 	return function()
