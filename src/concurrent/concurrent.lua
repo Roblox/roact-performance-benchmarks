@@ -15,7 +15,6 @@ local Object = LuauPolyfill.Object
 local setTimeout = LuauPolyfill.setTimeout
 local luaUtils = require(script.Parent.Parent.luaUtils)
 local Array, setInterval, clearInterval = luaUtils.Array, luaUtils.setInterval, luaUtils.clearInterval
--- ROBLOX TODO: replace deep import when Rotriever handles submodules
 local Scheduler = require(Packages.Scheduler)
 local low, run = Scheduler.unstable_LowPriority, Scheduler.unstable_runWithPriority
 
