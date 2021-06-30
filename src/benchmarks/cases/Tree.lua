@@ -13,12 +13,8 @@ local BenchmarkType = {
 local Tree = Roact.Component:extend("Tree")
 
 function Tree:render()
-	local anchorPoint, breadth, components, depth, id, wrap = self.props.anchorPoint,
-		self.props.breadth,
-		self.props.components,
-		self.props.depth,
-		self.props.id,
-		self.props.wrap
+	local breadth, components, depth, id, wrap =
+		self.props.breadth, self.props.components, self.props.depth, self.props.id, self.props.wrap
 	local Box = components.Box
 
 	-- ROBLOX deviation: ternary isn't supported.
@@ -35,6 +31,7 @@ function Tree:render()
 			name = "id = " .. id .. ", depth = " .. depth .. ", #children = 0",
 			color = (id % 3) + 3,
 			automaticSize = false,
+			usePadding = false,
 		})
 		children = { fixedBox }
 	else
@@ -56,15 +53,26 @@ function Tree:render()
 		end
 	end
 
-	local box = Roact.createElement(Box, {
+	local result = Roact.createElement(Box, {
 		name = "id = " .. id .. ", depth = " .. depth .. ", #children = " .. #children,
 		color = id % 3,
-		anchorPoint = anchorPoint,
 		automaticSize = true,
+		usePadding = true,
 		layout = layout,
 	}, children)
 
-	return box
+	for i = 1, wrap do
+		result = Roact.createElement(Box, {
+			name = "wrap = " .. i,
+			automaticSize = true,
+			usePadding = false,
+			color = -1,
+		}, {
+			result,
+		})
+	end
+
+	return result
 end
 
 -- ROBLOX deviation: we use function components and move static props to

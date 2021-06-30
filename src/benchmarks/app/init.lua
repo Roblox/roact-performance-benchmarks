@@ -174,6 +174,8 @@ local App = function(props)
 			Roact.createElement(Provider, nil, {
 				BenchWrapper = Roact.createElement("Frame", {
 					Name = "BenchWrapper",
+					AutomaticSize = Enum.AutomaticSize.XY,
+					AnchorPoint = Vector2.new(0.5, 0.5),
 					Position = UDim2.new(
 						0,
 						Workspace.CurrentCamera.ViewportSize.X / 2,

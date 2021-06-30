@@ -2,7 +2,6 @@ local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
 local Roact = require(Packages.Roact)
-local ReactRoblox = require(Packages.ReactRoblox)
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 
@@ -15,18 +14,20 @@ local COLORS = {
 	Color3.new(0.878, 0.141, 0.369),
 }
 
+local INVALID_COLOR = Color3.new(1, 0, 1)
+
 local BASE_SIZE = UDim2.new(0, 6, 0, 6)
 local BASE_PADDING = UDim2.new(0, 4, 0, 4)
 
 local Box = Roact.Component:extend("Box")
 
 function Box:render()
-	local children, anchorPoint, name, color, automaticSize, layout = self.props.children,
-		self.props.anchorPoint,
+	local children, name, color, layout, automaticSize, usePadding = self.props.children,
 		self.props.name,
 		self.props.color,
+		self.props.layout,
 		self.props.automaticSize,
-		self.props.layout
+		self.props.usePadding
 
 	local fillDirection
 	if layout == "row" then
@@ -44,7 +45,7 @@ function Box:render()
 
 	local siblings = {}
 
-	if automaticSize then
+	if usePadding then
 		local padding = Roact.createElement("UIPadding", {
 			PaddingBottom = UDim.new(BASE_PADDING.Y.Scale, BASE_PADDING.Y.Offset),
 			PaddingLeft = UDim.new(BASE_PADDING.X.Scale, BASE_PADDING.X.Offset),
@@ -62,13 +63,20 @@ function Box:render()
 		siblings.listLayout = listLayout
 	end
 
+	local backgroundColor
+	local colorIndex = (color or 0) + 1
+	if colorIndex > 0 then
+		backgroundColor = COLORS[colorIndex]
+	else
+		backgroundColor = INVALID_COLOR
+	end
+
 	return Roact.createElement("Frame", {
 		Name = name or "Box",
 		AutomaticSize = frameAutomaticSize,
-		BackgroundColor3 = COLORS[(color or 0) + 1],
+		BackgroundColor3 = backgroundColor,
 		BorderSizePixel = 0,
 		Size = size,
-		AnchorPoint = anchorPoint,
 	}, Object.assign(
 		{},
 		children,
