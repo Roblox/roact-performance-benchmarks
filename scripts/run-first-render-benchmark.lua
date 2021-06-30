@@ -1,6 +1,5 @@
 local Root = script.Parent.BenchmarkExamplesCI
 
-print("---- First Render Benchmark ----")
-print("")
-
-require(Root.RoactExamples.firstRenderBenchmark)()
+require(Root.RoactExamples.firstRenderBenchmark)({
+	minSamples = 200,
+})

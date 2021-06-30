@@ -1,6 +1,5 @@
 local Root = script.Parent.BenchmarkExamplesCI
 
-print("---- Frame Rate Benchmark ----")
-print("")
-
-require(Root.RoactExamples.frameRateBenchmark)()
+require(Root.RoactExamples.frameRateBenchmark)({
+	minSamples = 600,
+})

@@ -19,6 +19,8 @@ function calculateStats(data: Array<number>)
 		max = math.max(0, table.unpack(data)),
 		mean = mean,
 		variance = variance,
+		stdDev = math.sqrt(variance),
+		count = #data,
 	}
 end
 

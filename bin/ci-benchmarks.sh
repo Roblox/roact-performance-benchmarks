@@ -4,7 +4,7 @@ set -ex
 
 clear && printf '\e[3J'
 
-rojo build ci.project.json --output ci.rbxm
+rojo build benchmarks-cli.project.json --output ci.rbxm
 
 echo "Remove .robloxrc from dev dependencies"
 find Packages/Dev -name "*.robloxrc" | xargs rm -f
