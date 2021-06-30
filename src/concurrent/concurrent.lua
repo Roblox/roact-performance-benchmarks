@@ -147,6 +147,7 @@ local function FPS()
 		Position = UDim2.new(1, -10, 1, -10),
 		AnchorPoint = Vector2.new(1, 1),
 		Text = "...",
+		-- selene: allow(roblox_incorrect_roact_usage)
 		ref = ref,
 	})
 end
@@ -167,6 +168,7 @@ local function Box()
 	end)
 	return Roact.createElement("Part", {
 		Name = "Box",
+		-- selene: allow(roblox_incorrect_roact_usage)
 		ref = mesh,
 		Material = Enum.Material.Rock,
 		Size = Vector3.new(2, 2, 2),
