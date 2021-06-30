@@ -135,8 +135,6 @@ function Benchmark:componentDidUpdate()
 	local forceLayout, sampleCount, benchmarkType = self.props.forceLayout, self.props.sampleCount, self.props.type
 	local cycle, running = self.state.cycle, self.state.running
 
-	print("update cycle = " .. cycle .. ", sample = " .. tostring(self._samples[cycle]))
-
 	if running and shouldRecord(cycle, benchmarkType) then
 		self._samples[cycle].scriptingEnd = Timing.now()
 
