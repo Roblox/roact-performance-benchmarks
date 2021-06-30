@@ -23,11 +23,13 @@ local Canvas = forwardRef(function(props, ref)
 			Size = UDim2.new(0.8, 0, 0.8, 0),
 			Position = UDim2.new(0.1, 0, 0.1, 0),
 			BackgroundColor3 = Color3.fromRGB(0x27, 0x27, 0x37),
+			-- selene: allow(roblox_incorrect_roact_usage)
 			ref = viewportRef,
 		},
 		Array.concat({
 			Roact.createElement("Camera", {
 				CFrame = CFrame.new(Vector3.new(0, 0, 6), Vector3.new(0, 0, 0)),
+				-- selene: allow(roblox_incorrect_roact_usage)
 				ref = cameraRef,
 			}),
 		}, props.children)
