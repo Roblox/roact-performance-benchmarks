@@ -2,7 +2,6 @@ local rootWorkspace = script.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 local Benchmarks = rootWorkspace.Src.benchmarks
 
-local Workspace = game:GetService("Workspace")
 local Roact = require(Packages.Roact)
 local ReactRoblox = require(Packages.ReactRoblox)
 local useState = Roact.useState
@@ -117,7 +116,7 @@ local App = function(props)
 
 	local disableButtons = status == "running"
 
-	return Roact.createElement("Frame", { Name = "Container" }, {
+	return Roact.createElement("Frame", { Name = "Container", Size = UDim2.new(1, 0, 1, 0) }, {
 		ActionPanel = Roact.createElement("Frame", { ZIndex = 10 }, {
 			Roact.createElement("Frame", {
 				Name = "InputContainer",
@@ -157,29 +156,10 @@ local App = function(props)
 			}),
 		}),
 		ViewPanel = Roact.createElement("Frame", {
-			Position = UDim2.new(
-				0,
-				Workspace.CurrentCamera.ViewportSize.X / 2,
-				0,
-				Workspace.CurrentCamera.ViewportSize.Y / 2
-			),
+			Size = UDim2.new(1, 0, 1, 0),
+			BackgroundColor3 = Color3.new(0, 0, 0),
 		}, {
-			-- TODO: Add hide benchmark button
-			Roact.createElement(Provider, nil, {
-				BenchWrapper = Roact.createElement("Frame", {
-					Name = "BenchWrapper",
-					AutomaticSize = Enum.AutomaticSize.XY,
-					AnchorPoint = Vector2.new(0.5, 0.5),
-					Position = UDim2.new(
-						0,
-						Workspace.CurrentCamera.ViewportSize.X / 2,
-						0,
-						Workspace.CurrentCamera.ViewportSize.Y / 2
-					),
-				}, {
-					benchmark,
-				}),
-			}),
+			Roact.createElement(Provider, nil, { benchmark }),
 		}),
 	})
 end

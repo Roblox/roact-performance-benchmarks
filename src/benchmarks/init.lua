@@ -91,7 +91,7 @@ local tests = {
 return function(props)
 	return Roact.createElement(
 		"ScreenGui",
-		{ ZIndexBehavior = Enum.ZIndexBehavior.Sibling },
+		{ IgnoreGuiInset = true, ZIndexBehavior = Enum.ZIndexBehavior.Sibling },
 		Roact.createElement(App, { tests = tests })
 	)
 end
