@@ -51,17 +51,17 @@ local tests = {
 			sampleCount = 50,
 		}
 	end),
-	-- ["Mount wide tree"] = createTestBlock(function(components)
-	-- 	return {
-	-- 		benchmarkType = "mount",
-	-- 		Component = Tree.Tree,
-	-- 		getComponentProps = function()
-	-- 			return { breadth = 6, components = components, depth = 3, id = 0, wrap = 2 }
-	-- 		end,
-	-- 		Provider = components.Provider,
-	-- 		sampleCount = 50,
-	-- 	}
-	-- end),
+	["Mount wide tree"] = createTestBlock(function(components)
+		return {
+			benchmarkType = "mount",
+			Component = Tree.Tree,
+			getComponentProps = function()
+				return { breadth = 6, components = components, depth = 3, id = 0, wrap = 2 }
+			end,
+			Provider = components.Provider,
+			sampleCount = 50,
+		}
+	end),
 	-- ["Update dynamic styles"] = createTestBlock(function(components)
 	-- 	return {
 	-- 		benchmarkType = "update",
@@ -89,5 +89,9 @@ local tests = {
 -- ROBLOX deviation: return an element instead of rendering here so bootstrap
 -- code needed to connect to engine can reside elsewhere.
 return function(props)
-	return Roact.createElement("ScreenGui", nil, Roact.createElement(App, { tests = tests }))
+	return Roact.createElement(
+		"ScreenGui",
+		{ ZIndexBehavior = Enum.ZIndexBehavior.Sibling },
+		Roact.createElement(App, { tests = tests })
+	)
 end

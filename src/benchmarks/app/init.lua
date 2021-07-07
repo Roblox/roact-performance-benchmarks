@@ -11,8 +11,11 @@ local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 local Array = LuauPolyfill.Array
 
-local Button = require(Benchmarks.app.Button)
 local Benchmark = require(Benchmarks.app.Benchmark)
+local Button = require(Benchmarks.app.Button)
+local Entry = require(Benchmarks.app.Picker.Entry)
+local Header = require(Benchmarks.app.Picker.Header)
+local Picker = require(Benchmarks.app.Picker)
 
 -- ROBLOX deviation: no context object available, use props.
 local App = function(props)
@@ -40,16 +43,8 @@ local App = function(props)
 				.. "'"
 		)
 
-		-- local benchmark = benchRef:getValue()
 		local benchmark = benchRef.current
 		benchmark:start()
-
-		-- TODO: Add scroll to end after report card is implemented.
-	end
-
-	local handleClear = function()
-		print("handleClear invoked, clearing results")
-		setResults({})
 	end
 
 	local createHandleComplete = function(props)
@@ -99,6 +94,21 @@ local App = function(props)
 		type = Component.benchmarkType,
 	})
 
+	local pickerEntries = {}
+	pickerEntries[#pickerEntries + 1] = Roact.createElement(Header, {
+		Text = "Benchmark Choices",
+		LayoutOrder = #pickerEntries,
+	})
+	for k, _ in pairs(props.tests) do
+		pickerEntries[#pickerEntries + 1] = Roact.createElement(Entry, {
+			Text = k,
+			LayoutOrder = #pickerEntries,
+			OnSelect = function(rbx)
+				setCurrentBenchmarkName(k)
+			end,
+		})
+	end
+
 	if status == "running" then
 		statusText = "Running…"
 	else
@@ -108,58 +118,42 @@ local App = function(props)
 	local disableButtons = status == "running"
 
 	return Roact.createElement("Frame", { Name = "Container" }, {
-		ActionPanel = Roact.createElement("Frame", nil, {
-			-- Pickers
+		ActionPanel = Roact.createElement("Frame", { ZIndex = 10 }, {
 			Roact.createElement("Frame", {
 				Name = "InputContainer",
-				Position = UDim2.new(1, 0, 1, 300),
+				Position = UDim2.new(0, 0, 0, 200),
 			}, {
 				Roact.createElement("TextLabel", {
-					Name = "LibraryLabel",
+					Name = "BenchmarkLabel",
 					Size = UDim2.new(0, 100, 0, 50),
-					Position = UDim2.new(1, 0, 0, 0),
+					Position = UDim2.new(0, 0, 0, 0),
 					AnchorPoint = Vector2.new(0, 0),
-					Text = "Library",
+					Text = "Benchmark",
 				}),
 				Roact.createElement("TextLabel", {
-					Name = "CurrentLibraryNameLabel",
+					Name = "CurrentBenchmarkNameLabel",
 					Size = UDim2.new(0, 100, 0, 50),
-					Position = UDim2.new(1, 0, 0, 60),
+					Position = UDim2.new(0, 0, 0, 60),
 					AnchorPoint = Vector2.new(0, 0),
-					Text = currentLibraryName,
+					Text = currentBenchmarkName,
 				}),
-				-- Roact.createElement(Picker, {
-				-- 	Size = UDim2.new(0, 100, 0, 50),
-				-- 	Position = UDim2.new(1, 0, 0, 0),
-				-- 	AnchorPoint = Vector2.new(1, 0),
-				-- }, {
-				-- 	-- Picker choices
-				-- }),
-			}),
-			-- Status
-			Roact.createElement("Frame", { Name = "ControlsContainer" }, {
-				Roact.createElement(Button, {
-					Name = "StartButton",
+				Roact.createElement(Picker, {
 					Size = UDim2.new(0, 100, 0, 50),
-					Position = UDim2.new(1, 0, 1, 240),
+					Position = UDim2.new(0, 250, 0, -16),
 					AnchorPoint = Vector2.new(0, 0),
-					Text = statusText,
-					BackgroundColor3 = Color3.new(0, 1, 0),
-					Active = not disableButtons,
-					[ReactRoblox.Event.Activated] = handleStart,
+				}, pickerEntries),
+				Roact.createElement("Frame", { Name = "ControlsContainer" }, {
+					Roact.createElement(Button, {
+						Name = "StartButton",
+						Size = UDim2.new(0, 100, 0, 50),
+						Position = UDim2.new(1, 0, 1, 120),
+						AnchorPoint = Vector2.new(0, 0),
+						Text = statusText,
+						BackgroundColor3 = Color3.new(0, 1, 0),
+						Active = not disableButtons,
+						[ReactRoblox.Event.Activated] = handleStart,
+					}),
 				}),
-			}),
-		}),
-		ListPanel = Roact.createElement("Frame", nil, {
-			Roact.createElement(Button, {
-				Name = "ClearButton",
-				Size = UDim2.new(0, 100, 0, 50),
-				Position = UDim2.new(1, 0, 1, 180),
-				AnchorPoint = Vector2.new(0, 0),
-				Text = "Clear", -- TODO: replace with icon
-				BackgroundColor3 = Color3.new(1, 0, 0),
-				Active = not disableButtons,
-				[ReactRoblox.Event.Activated] = handleClear,
 			}),
 		}),
 		ViewPanel = Roact.createElement("Frame", {
