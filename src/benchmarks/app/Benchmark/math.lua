@@ -3,7 +3,7 @@ local Packages = rootWorkspace.Packages
 
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
-
+type Array<T> = { [number]: T }
 type ValuesType = Array<number>
 
 local getMean = function(values: ValuesType): number

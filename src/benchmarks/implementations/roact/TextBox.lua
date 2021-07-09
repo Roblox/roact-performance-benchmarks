@@ -1,7 +1,7 @@
 local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
-local Roact = require(Packages.Roact)
+local Roact = require(Packages.Dev.Roact)
 
 local COLORS = {
 	Color3.new(0.078, 0.09, 0.102),

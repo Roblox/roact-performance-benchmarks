@@ -1,0 +1,37 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "roblox-lrdb",
+      "request": "launch",
+      "name": "Debug Unit Tests",
+      "program": "/<absolute_path_to_cli>",
+      "args": [
+        "run",
+        "--load.project",
+        "tests.project.json",
+        "--debug.on",
+        "--run",
+        "scripts/spec.lua"
+      ],
+      "cwd": "${workspaceFolder}",
+      "stopOnEntry": false
+    }
+    {
+        "type": "roblox-lrdb",
+        "request": "launch",
+        "name": "Debug Benchmarks",
+        "program": "/<absolute_path_to_cli>",
+        "args": [
+            "run",
+            "--load.project",
+            "tests.project.json",
+            "--debug.on",
+            "--run",
+            "scripts/run-first-render-benchmark.lua",
+        ],
+        "cwd": "${workspaceFolder}",
+        "stopOnEntry": true
+    }
+  ]
+}

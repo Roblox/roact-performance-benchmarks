@@ -2,16 +2,19 @@ return function()
 	local testWorkspace = script.Parent.Parent
 	local srcWorkspace = testWorkspace.Parent
 	local rootWorkspace = srcWorkspace.Parent
-	local PackagesWorkspace = rootWorkspace.Packages
 
-	local JestRoblox = require(PackagesWorkspace.Dev.JestRoblox)
+	local Roact = require(rootWorkspace.Dev.Roact)
+	local ReactRoblox = require(rootWorkspace.Dev.ReactRoblox)
+	local Scheduler = require(rootWorkspace.Dev.Scheduler)
+
+	local JestRoblox = require(rootWorkspace.Dev.JestRoblox)
 	local jestExpect = JestRoblox.Globals.expect
 
-	local LuauPolyfill = require(PackagesWorkspace.LuauPolyfill)
+	local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 	local Array = LuauPolyfill.Array
 
-	local Concurrent = require(testWorkspace.concurrent).Concurrent
-	local bootstrapSync = require(srcWorkspace.testUtils.bootstrapSync)
+	local Concurrent = require(testWorkspace.concurrent)(Roact, Scheduler).Concurrent
+	local bootstrapSync = require(srcWorkspace.testUtils.bootstrapSync)(Roact, ReactRoblox)
 
 	describe("Concurrent example tests", function()
 		local rootInstance

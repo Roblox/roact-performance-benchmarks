@@ -1,11 +1,11 @@
 local rootWorkspace = game:GetService("ReplicatedStorage")
 local Packages = rootWorkspace.Packages
-local Benchmarks = rootWorkspace.Src.benchmarks
+local Benchmarks = rootWorkspace.PerformanceBenchmarks.benchmarks
 
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 local Array = LuauPolyfill.Array
-local Roact = require(Packages.Roact)
+local Roact = require(Packages.Dev.Roact)
 
 local impl = require(Benchmarks.impl)
 local App = require(Benchmarks.app)
@@ -20,7 +20,8 @@ local function createTestBlock(fn)
 		local name, components, version = implementation.name, implementation.components, implementation.version
 
 		local componentInfo = fn(components)
-		local Component, getComponentProps, sampleCount, Provider, benchmarkType = componentInfo.Component,
+		local Component, getComponentProps, sampleCount, Provider, benchmarkType =
+			componentInfo.Component,
 			componentInfo.getComponentProps,
 			componentInfo.sampleCount,
 			componentInfo.Provider,

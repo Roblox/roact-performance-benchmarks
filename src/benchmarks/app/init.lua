@@ -1,9 +1,9 @@
 local rootWorkspace = script.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
-local Benchmarks = rootWorkspace.Src.benchmarks
+local Benchmarks = rootWorkspace.PerformanceBenchmarks.benchmarks
 
-local Roact = require(Packages.Roact)
-local ReactRoblox = require(Packages.ReactRoblox)
+local Roact = require(Packages.Dev.Roact)
+local ReactRoblox = require(Packages.Dev.ReactRoblox)
 local useState = Roact.useState
 local useRef = Roact.useRef
 local LuauPolyfill = require(Packages.LuauPolyfill)
@@ -26,7 +26,8 @@ local App = function(props)
 
 	local tests = props.tests
 	local currentImplementation = tests[currentBenchmarkName][currentLibraryName]
-	local Component, Provider, getComponentProps, sampleCount = currentImplementation.Component,
+	local Component, Provider, getComponentProps, sampleCount =
+		currentImplementation.Component,
 		currentImplementation.Provider,
 		currentImplementation.getComponentProps,
 		currentImplementation.sampleCount

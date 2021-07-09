@@ -1,18 +1,18 @@
 [package]
-name = "concurrent-lua"
+name = "PerformanceBenchmarks"
 version = "0.1.0"
 author = "Roblox"
 content_root = "src"
 
 [dependencies]
-LuauPolyfill = "github.com/Roblox/luau-polyfill@0.2.0"
-Promise = "github.com/evaera/roblox-lua-promise@3.0.1"
-Roact = { git = "https://github.com/roblox/roact-alignment.git", package = "React" }
-ReactRoblox = { git = "https://github.com/roblox/roact-alignment.git" }
-Scheduler = { git = "https://github.com/roblox/roact-alignment.git" }
+LuauPolyfill = "github.com/roblox/luau-polyfill@roblox/roblox-luau-polyfill@0.2.0"
+Promise = "github.com/evaera/roblox-lua-promise@3.1.0"
 Cryo = "github.com/Roblox/cryo@1.0.0"
 
 [dev_dependencies]
-JestRoblox = "github.com/roblox/jest-roblox@=1.0.0"
+Roact = { git = "https://github.com/roblox/roact-alignment.git", package = "React" }
+ReactRoblox = { git = "https://github.com/roblox/roact-alignment.git" }
+Scheduler = { git = "https://github.com/roblox/roact-alignment.git" }
+JestRoblox = "github.com/roblox/jest-roblox@=1.1.2"
 # FIXME: This project is not intended for use outside of roact-alignment
 RobloxJest = { git = "https://github.com/roblox/roact-alignment.git" }

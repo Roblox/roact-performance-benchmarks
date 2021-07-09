@@ -2,18 +2,18 @@ return function()
 	local hooksWorkspace = script.Parent.Parent
 	local srcWorkspace = hooksWorkspace.Parent
 	local rootWorkspace = srcWorkspace.Parent
-	local PackagesWorkspace = rootWorkspace.Packages
 
-	local JestRoblox = require(PackagesWorkspace.Dev.JestRoblox)
+	local JestRoblox = require(rootWorkspace.Dev.JestRoblox)
 	local jestExpect = JestRoblox.Globals.expect
 	local jest = JestRoblox.Globals.jest
 
 	-- ROBLOX TODO: replace this functionality; roact-alignment should probably
 	-- not actually allow this to be consumed by external users
-	local RobloxJest = require(PackagesWorkspace.Dev.RobloxJest)
+	local RobloxJest = require(rootWorkspace.Dev.RobloxJest)
 
 	describe("useFrame", function()
 		local Roact
+		local ReactRoblox
 		local bootstrapSync
 		local useFrame
 		local RunService
@@ -35,9 +35,10 @@ return function()
                 - bootstrapSync
                 so that they use the same Roact instance as `useFrame`
             ]]
-			Roact = require(PackagesWorkspace.Roact)
-			bootstrapSync = require(srcWorkspace.testUtils.bootstrapSync)
-			useFrame = require(hooksWorkspace.useFrame)
+			Roact = require(rootWorkspace.Dev.Roact)
+			ReactRoblox = require(rootWorkspace.Dev.ReactRoblox)
+			bootstrapSync = require(srcWorkspace.testUtils.bootstrapSync)(Roact, ReactRoblox)
+			useFrame = require(hooksWorkspace.useFrame)(Roact)
 			RunService = require(srcWorkspace.utils.RunService)
 		end)
 
@@ -50,8 +51,7 @@ return function()
 			rootInstance.Name = "GuiRoot"
 
 			local stop = bootstrapSync(rootInstance, function()
-				useFrame(function()
-				end)
+				useFrame(function() end)
 				return Roact.createElement("Folder")
 			end)
 

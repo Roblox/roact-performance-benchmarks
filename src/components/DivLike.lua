@@ -1,9 +1,7 @@
-local rootWorkspace = script.Parent.Parent.Parent
-local Packages = rootWorkspace.Packages
-local Roact = require(Packages.Roact)
+return function(Roact)
+	local DivLike = function(props)
+		return Roact.createElement("Folder", { Name = "Div" }, props.children)
+	end
 
-local DivLike = function(props)
-	return Roact.createElement("Folder", { Name = "Div" }, props.children)
+	return DivLike
 end
-
-return DivLike

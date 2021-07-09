@@ -1,8 +1,8 @@
 local rootWorkspace = script.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
-local Benchmarks = rootWorkspace.Src.Benchmarks
+local Benchmarks = rootWorkspace.PerformanceBenchmarks.Benchmarks
 
-local Roact = require(Packages.Roact)
+local Roact = require(Packages.Dev.Roact)
 
 local Chromatic = require(Benchmarks.App.Benchmark.Chromatic)
 local interpolatePurples

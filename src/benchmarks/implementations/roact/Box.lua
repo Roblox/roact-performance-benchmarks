@@ -1,7 +1,7 @@
 local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
-local Roact = require(Packages.Roact)
+local Roact = require(Packages.Dev.Roact)
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 
@@ -22,7 +22,8 @@ local BASE_PADDING = UDim2.new(0, 4, 0, 4)
 local Box = Roact.Component:extend("Box")
 
 function Box:render()
-	local children, name, color, layout, automaticSize, usePadding = self.props.children,
+	local children, name, color, layout, automaticSize, usePadding =
+		self.props.children,
 		self.props.name,
 		self.props.color,
 		self.props.layout,

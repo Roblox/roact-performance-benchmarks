@@ -10,13 +10,10 @@
       }
     },
     "Packages": {
-      "$path": "Packages"
-    },
-    "Src": {
-      "$path": "src"
-    },
-    "RoactExamples": {
-      "$path": "examples"
+      "$path": "Packages",
+      "PerformanceBenchmarks": {
+        "$path": "src"
+      }
     }
   }
 }

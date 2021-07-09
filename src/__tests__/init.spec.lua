@@ -1,8 +1,7 @@
 return function()
 	local rootWorkspace = script.Parent.Parent.Parent
-	local PackagesWorkspace = rootWorkspace.Packages
 
-	local JestRoblox = require(PackagesWorkspace.Dev.JestRoblox)
+	local JestRoblox = require(rootWorkspace.Dev.JestRoblox)
 	local jestExpect = JestRoblox.Globals.expect
 
 	describe("initial describe", function()

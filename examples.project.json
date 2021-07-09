@@ -7,10 +7,10 @@
       "$className": "ReplicatedStorage",
 
       "Packages": {
-        "$path": "Packages"
-      },
-      "Src": {
-        "$path": "src"
+        "$path": "Packages",
+        "PerformanceBenchmarks": {
+          "$path": "src"
+        }
       }
     },
 

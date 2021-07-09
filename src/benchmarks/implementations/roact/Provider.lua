@@ -2,7 +2,7 @@ local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
 local Cryo = require(Packages.Cryo)
-local Roact = require(Packages.Roact)
+local Roact = require(Packages.Dev.Roact)
 
 local Provider = function(props)
 	return Roact.createElement(

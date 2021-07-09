@@ -1,3 +1,5 @@
-local Concurrent = require(script.concurrent).Concurrent
+return function(Roact, Scheduler)
+	local Concurrent = require(script.concurrent)(Roact, Scheduler)
 
-return Concurrent
+	return Concurrent
+end

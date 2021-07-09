@@ -1,6 +1,5 @@
 local rootWorkspace = script.Parent.Parent
-local Packages = rootWorkspace.Packages
-local LuauPolyfill = require(Packages.LuauPolyfill)
+local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 local Object = LuauPolyfill.Object
 
 local makeIntervalImpl = require(script.makeIntervalImpl)

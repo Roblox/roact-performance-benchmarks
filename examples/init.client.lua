@@ -1,7 +1,10 @@
+local rootWorkspace = game.ReplicatedStorage.Packages
+
 local PlayerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
-local Roact = require(game.ReplicatedStorage.Packages.Roact)
-local ReactRoblox = require(game.ReplicatedStorage.Packages.ReactRoblox)
-local Concurrent = require(game.ReplicatedStorage.Src.concurrent)
+local Roact = require(rootWorkspace.Dev.Roact)
+local ReactRoblox = require(rootWorkspace.Dev.ReactRoblox)
+local Scheduler = require(rootWorkspace.Dev.Scheduler)
+local Concurrent = require(rootWorkspace.PerformanceBenchmarks.concurrent)(Roact, Scheduler).Concurrent
 
 local _stop
 

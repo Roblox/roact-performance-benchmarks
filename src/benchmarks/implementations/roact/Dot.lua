@@ -1,7 +1,7 @@
 local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
-local Roact = require(Packages.Roact)
+local Roact = require(Packages.Dev.Roact)
 
 local function Dot(props)
 	return Roact.createElement("Frame", {

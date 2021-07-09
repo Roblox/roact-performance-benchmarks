@@ -14,7 +14,8 @@ local function rgbGamma(y)
 		stop = colorRgb(stop)
 
 		-- ROBLOX deviation: we can't use the result from an assignment
-		local r, g, b, opacity = color((start).r, (stop).r),
+		local r, g, b, opacity =
+			color((start).r, (stop).r),
 			color(start.g, stop.g),
 			color(start.b, stop.b),
 			nogamma(start.opacity, stop.opacity)

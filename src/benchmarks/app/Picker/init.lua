@@ -1,8 +1,8 @@
 local rootWorkspace = script.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
-local Roact = require(Packages.Roact)
-local ReactRoblox = require(Packages.ReactRoblox)
+local Roact = require(Packages.Dev.Roact)
+local ReactRoblox = require(Packages.Dev.ReactRoblox)
 
 local Picker = Roact.Component:extend("Picker")
 
