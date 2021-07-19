@@ -35,3 +35,4 @@ debug.log
 /site
 /rotriever.lock
 /output.txt
+.vscode/launch.json

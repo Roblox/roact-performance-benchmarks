@@ -1,4 +1,4 @@
-local rootWorkspace = script.Parent.ConcurrentExamplesCI.Packages
+local rootWorkspace = script.Parent.BenchmarksExamplesCI.Packages
 local Roact = require(rootWorkspace.Dev.Roact)
 local ReactRoblox = require(rootWorkspace.Dev.ReactRoblox)
 local Scheduler = require(rootWorkspace.Dev.Scheduler)
