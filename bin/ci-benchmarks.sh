@@ -21,3 +21,4 @@ roblox-cli run --load.model model.rbxm --run scripts/run-frame-rate-benchmark.lu
 
 roblox-cli run --load.model model.rbxm --run scripts/run-deep-tree-benchmark.lua --headlessRenderer 1
 roblox-cli run --load.model model.rbxm --run scripts/run-wide-tree-benchmark.lua --headlessRenderer 1
+roblox-cli run --load.model model.rbxm --run scripts/run-sierpinski-triangle-benchmark.lua --headlessRenderer 1

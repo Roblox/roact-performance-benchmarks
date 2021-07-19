@@ -10,8 +10,8 @@ return function(Roact, ReactRoblox)
 			Cryo.Dictionary.join(props, {
 				Name = "Provider",
 				Position = UDim2.new(0.5, 0, 0.5, 0),
-				AnchorPoint = Vector2.new(0.5, 0.5),
 				AutomaticSize = Enum.AutomaticSize.XY,
+				BackgroundTransparency = 1,
 			}),
 			props.children
 		)

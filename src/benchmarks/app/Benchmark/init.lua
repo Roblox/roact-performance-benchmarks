@@ -104,12 +104,14 @@ return function(Roact, ReactRoblox)
 	}
 
 	function Benchmark:init(props)
+		local sampleCount = props.sampleCount
+
 		self._render_step = nil
 		self._startTime = nil
 		self._samples = nil
 
 		local cycle = 1
-		local componentProps = props.getComponentProps({ cycle = cycle })
+		local componentProps = props.getComponentProps({ cycle = cycle, sampleCount = sampleCount })
 
 		self.state = {
 			componentProps = componentProps,
@@ -125,10 +127,12 @@ return function(Roact, ReactRoblox)
 	function Benchmark.getDerivedStateFromProps(nextProps, prevState)
 		if nextProps ~= nil then
 			return {
-				componentProps = nextProps.getComponentProps({ cycle = prevState.cycle }),
+				componentProps = nextProps.getComponentProps({
+					cycle = prevState.cycle,
+					sampleCount = nextProps.sampleCount,
+				}),
 			}
 		end
-		return nil
 	end
 
 	function Benchmark:componentDidUpdate()
@@ -262,12 +266,13 @@ return function(Roact, ReactRoblox)
 	end
 
 	function Benchmark:_handleCycleComplete()
-		local getComponentProps, benchmarkType = self.props.getComponentProps, self.props.type
+		local getComponentProps, benchmarkType, sampleCount =
+			self.props.getComponentProps, self.props.type, self.props.sampleCount
 		local cycle = self.state.cycle
 
 		local componentProps
 		if getComponentProps ~= nil then
-			componentProps = getComponentProps({ cycle = cycle })
+			componentProps = getComponentProps({ cycle = cycle, sampleCount = sampleCount })
 			if benchmarkType == BenchmarkType.UPDATE then
 				componentProps["data-test"] = cycle
 			end

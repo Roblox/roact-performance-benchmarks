@@ -17,12 +17,13 @@ return function(Roact, ReactRoblox)
 			local name, components, version = implementation.name, implementation.components, implementation.version
 
 			local componentInfo = fn(components)
-			local Component, getComponentProps, sampleCount, Provider, benchmarkType =
+			local Component, getComponentProps, sampleCount, Provider, benchmarkType, anchorPoint =
 				componentInfo.Component,
 				componentInfo.getComponentProps,
 				componentInfo.sampleCount,
 				componentInfo.Provider,
-				componentInfo.benchmarkType
+				componentInfo.benchmarkType,
+				componentInfo.anchorPoint
 
 			testSetups[packageName] = {
 				Component = Component,
@@ -32,6 +33,7 @@ return function(Roact, ReactRoblox)
 				benchmarkType = benchmarkType,
 				version = version,
 				name = name,
+				anchorPoint = anchorPoint,
 			}
 			return testSetups
 		end, {})

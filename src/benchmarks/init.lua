@@ -8,6 +8,7 @@ return function(Roact, ReactRoblox)
 	local TestUtils = require(Benchmarks.testUtils)(Roact, ReactRoblox)
 	local App = require(Benchmarks.app)(Roact, ReactRoblox)
 	local Tree = require(Benchmarks.cases.Tree)(Roact, ReactRoblox)
+	local SierpinskiTriangle = require(Benchmarks.cases.SierpinskiTriangle)(Roact, ReactRoblox)
 
 	local tests = {
 		["Mount deep tree"] = TestUtils.createTestBlock(function(components)
@@ -19,6 +20,7 @@ return function(Roact, ReactRoblox)
 				end,
 				Provider = components.Provider,
 				sampleCount = 50,
+				anchorPoint = Vector2.new(0.5, 0.5),
 			}
 		end),
 		["Mount wide tree"] = TestUtils.createTestBlock(function(components)
@@ -30,19 +32,28 @@ return function(Roact, ReactRoblox)
 				end,
 				Provider = components.Provider,
 				sampleCount = 50,
+				anchorPoint = Vector2.new(0.5, 0.5),
 			}
 		end),
-		-- ["Update dynamic styles"] = TestUtils.createTestBlock(function(components)
-		-- 	return {
-		-- 		benchmarkType = "update",
-		-- 		Component = SierpinskiTriangle.SierpinskiTriangle,
-		-- 		getComponentProps = function(props)
-		-- 			return { components = components, s = 200, renderCount = props.cycle, x = 0, y = 0 }
-		-- 		end,
-		-- 		Provider = components.Provider,
-		-- 		sampleCount = 50,
-		-- 	}
-		-- end),
+		["Update dynamic styles"] = TestUtils.createTestBlock(function(components)
+			return {
+				benchmarkType = "update",
+				Component = SierpinskiTriangle.SierpinskiTriangle,
+				getComponentProps = function(props)
+					return {
+						components = components,
+						s = 200,
+						renderCount = props.cycle,
+						sampleCount = props.sampleCount,
+						x = 0,
+						y = 0,
+					}
+				end,
+				Provider = components.Provider,
+				sampleCount = 50,
+				anchorPoint = Vector2.new(0, 0),
+			}
+		end),
 		-- ["Mount text tree"] = TestUtils.createTestBlock(function(components)
 		-- 	return {
 		-- 		benchmarkType = "mount",

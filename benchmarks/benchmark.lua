@@ -31,7 +31,7 @@ return function(Roact, ReactRoblox)
 	local Benchmark = require(Packages.PerformanceBenchmarks.benchmarks.app.Benchmark)(Roact, ReactRoblox)
 
 	return function(config: TestConfig)
-		local deepTreeConfig = config.testBlock[LIBRARY_NAME]
+		local testBlock = config.testBlock[LIBRARY_NAME]
 		local isComplete = false
 		local stop = nil
 
@@ -77,14 +77,14 @@ return function(Roact, ReactRoblox)
 			end, {})
 
 			local benchmark = Roact.createElement(Benchmark, {
-				component = deepTreeConfig.Component,
+				component = testBlock.Component,
 				forceLayout = true,
-				getComponentProps = deepTreeConfig.getComponentProps,
+				getComponentProps = testBlock.getComponentProps,
 				onComplete = onComplete,
 				ref = benchmarkRef,
-				sampleCount = deepTreeConfig.sampleCount,
+				sampleCount = testBlock.sampleCount,
 				timeout = config.timeout,
-				type = deepTreeConfig.Component.benchmarkType,
+				type = testBlock.benchmarkType,
 			})
 
 			return benchmark

@@ -26,11 +26,13 @@ return function(Roact, ReactRoblox)
 
 		local tests = props.tests
 		local currentImplementation = tests[currentBenchmarkName][currentLibraryName]
-		local Component, Provider, getComponentProps, sampleCount =
+		local Component, Provider, getComponentProps, sampleCount, benchmarkType, providerAnchorPoint =
 			currentImplementation.Component,
 			currentImplementation.Provider,
 			currentImplementation.getComponentProps,
-			currentImplementation.sampleCount
+			currentImplementation.sampleCount,
+			currentImplementation.benchmarkType,
+			currentImplementation.anchorPoint
 
 		local handleStart = function()
 			setStatus("running")
@@ -38,7 +40,7 @@ return function(Roact, ReactRoblox)
 			print(
 				"handleStart invoked, starting benchmark '"
 					.. currentBenchmarkName
-					.. "' for library' "
+					.. "' for library'"
 					.. currentLibraryName
 					.. "'"
 			)
@@ -91,7 +93,7 @@ return function(Roact, ReactRoblox)
 			ref = benchRef,
 			sampleCount = sampleCount,
 			timeout = 20000,
-			type = Component.benchmarkType,
+			type = benchmarkType,
 		})
 
 		local pickerEntries = {}
@@ -161,7 +163,7 @@ return function(Roact, ReactRoblox)
 				BackgroundColor3 = Color3.new(0, 0, 0),
 				Name = "ProviderWrapper",
 			}, {
-				Roact.createElement(Provider, { Name = "Provider" }, { benchmark }),
+				Roact.createElement(Provider, { Name = "Provider", AnchorPoint = providerAnchorPoint }, { benchmark }),
 			}),
 		})
 	end
