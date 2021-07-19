@@ -1,7 +1,7 @@
 local PlayerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
 local Roact = require(game.ReplicatedStorage.Packages.Dev.Roact)
 local ReactRoblox = require(game.ReplicatedStorage.Packages.Dev.ReactRoblox)
-local Benchmarks = require(game.ReplicatedStorage.Src.benchmarks)
+local Benchmarks = require(game.ReplicatedStorage.Packages.PerformanceBenchmarks.benchmarks)(Roact, ReactRoblox)
 
 local _stop
 

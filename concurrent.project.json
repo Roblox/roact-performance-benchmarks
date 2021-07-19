@@ -20,8 +20,8 @@
       "StarterPlayerScripts": {
         "$className": "StarterPlayerScripts",
 
-        "RoactExamples": {
-          "$path": "examples"
+        "Concurrent": {
+          "$path": "concurrent"
         }
       }
     },

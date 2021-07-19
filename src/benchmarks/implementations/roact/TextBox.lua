@@ -1,8 +1,3 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
-local Packages = rootWorkspace.Packages
-
-local Roact = require(Packages.Dev.Roact)
-
 local COLORS = {
 	Color3.new(0.078, 0.09, 0.102),
 	Color3.new(0.667, 0.722, 0.761),
@@ -12,10 +7,12 @@ local COLORS = {
 	Color3.new(0.878, 0.141, 0.369),
 }
 
-local function TextBox(props)
-	return Roact.createElement("TextLabel", {
-		TextColor3 = COLORS[props.color],
-	})
-end
+return function(Roact, ReactRoblox)
+	local function TextBox(props)
+		return Roact.createElement("TextLabel", {
+			TextColor3 = COLORS[props.color],
+		})
+	end
 
-return TextBox
+	return TextBox
+end

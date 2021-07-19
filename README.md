@@ -11,7 +11,7 @@
 
 Foreman toolchain manager uses Rust so you might want to install it first. Go to the [official installation instructions](https://www.rust-lang.org/tools/install) to get installation steps for your platform
 
-We can use `cargo` to install other required packages. It's a package manager for Rust so it's like `npm` in the Rust world. 
+We can use `cargo` to install other required packages. It's a package manager for Rust so it's like `npm` in the Rust world.
 
 Ensure `cargo` is available in your `PATH`:
 
@@ -77,7 +77,7 @@ Set scopes:
 
     ```bash
     rotrieve --git-auth <username>@<github_api_key> install
-    
+
 
     # syntax for Rotriever version >= 5
     # rotrieve install --auth https://<username>:<github_api_key>@github.com
@@ -87,7 +87,7 @@ Set scopes:
 
     ```bash
     rotrieve --git-auth <username>@<github_api_key> upgrade
-    
+
 
     # syntax for Rotriever version >= 5
     # rotrieve upgrade --auth https://<username>:<github_api_key>@github.com
@@ -103,7 +103,7 @@ Set scopes:
     brew install openssl@1.1
     ```
 
-    This doesn't seem to work on Apple Silicon Macs 😞 
+    This doesn't seem to work on Apple Silicon Macs 😞
 
 ## Running tests
 
@@ -158,7 +158,7 @@ The easiest way to run the example in Roblox Studio is to sync files using [Rojo
 ### Start Rojo server
 
 ```bash
-rojo serve examples.project.json
+rojo serve concurrent.project.json
 ```
 
 ### Roblox Studio
@@ -179,5 +179,3 @@ In Roblox Studio:
 <div align="center">Coming soon...</div>
 
 ---
-
-    

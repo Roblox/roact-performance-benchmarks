@@ -1,7 +1,6 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
+local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent.Parent
 local Packages = rootWorkspace.Packages
 
-local Roact = require(Packages.Dev.Roact)
 local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 
@@ -19,70 +18,72 @@ local INVALID_COLOR = Color3.new(1, 0, 1)
 local BASE_SIZE = UDim2.new(0, 6, 0, 6)
 local BASE_PADDING = UDim2.new(0, 4, 0, 4)
 
-local Box = Roact.Component:extend("Box")
+return function(Roact, ReactRoblox)
+	local Box = Roact.Component:extend("Box")
 
-function Box:render()
-	local children, name, color, layout, automaticSize, usePadding =
-		self.props.children,
-		self.props.name,
-		self.props.color,
-		self.props.layout,
-		self.props.automaticSize,
-		self.props.usePadding
+	function Box:render()
+		local children, name, color, layout, automaticSize, usePadding =
+			self.props.children,
+			self.props.name,
+			self.props.color,
+			self.props.layout,
+			self.props.automaticSize,
+			self.props.usePadding
 
-	local fillDirection
-	if layout == "row" then
-		fillDirection = Enum.FillDirection.Horizontal
-	else
-		fillDirection = Enum.FillDirection.Vertical
+		local fillDirection
+		if layout == "row" then
+			fillDirection = Enum.FillDirection.Horizontal
+		else
+			fillDirection = Enum.FillDirection.Vertical
+		end
+
+		local frameAutomaticSize, size = nil, nil
+		if automaticSize then
+			frameAutomaticSize = Enum.AutomaticSize.XY
+		else
+			size = BASE_SIZE
+		end
+
+		local siblings = {}
+
+		if usePadding then
+			local padding = Roact.createElement("UIPadding", {
+				PaddingBottom = UDim.new(BASE_PADDING.Y.Scale, BASE_PADDING.Y.Offset),
+				PaddingLeft = UDim.new(BASE_PADDING.X.Scale, BASE_PADDING.X.Offset),
+				PaddingRight = UDim.new(BASE_PADDING.X.Scale, BASE_PADDING.X.Offset),
+				PaddingTop = UDim.new(BASE_PADDING.Y.Scale, BASE_PADDING.Y.Offset),
+			})
+			siblings.padding = padding
+
+			local listLayout = Roact.createElement("UIListLayout", {
+				Padding = UDim.new(0, 0),
+				FillDirection = fillDirection,
+				VerticalAlignment = 0,
+				HorizontalAlignment = 0,
+			})
+			siblings.listLayout = listLayout
+		end
+
+		local backgroundColor
+		local colorIndex = (color or 0) + 1
+		if colorIndex > 0 then
+			backgroundColor = COLORS[colorIndex]
+		else
+			backgroundColor = INVALID_COLOR
+		end
+
+		return Roact.createElement("Frame", {
+			Name = name or "Box",
+			AutomaticSize = frameAutomaticSize,
+			BackgroundColor3 = backgroundColor,
+			BorderSizePixel = 0,
+			Size = size,
+		}, Object.assign(
+			{},
+			children,
+			siblings
+		))
 	end
 
-	local frameAutomaticSize, size = nil, nil
-	if automaticSize then
-		frameAutomaticSize = Enum.AutomaticSize.XY
-	else
-		size = BASE_SIZE
-	end
-
-	local siblings = {}
-
-	if usePadding then
-		local padding = Roact.createElement("UIPadding", {
-			PaddingBottom = UDim.new(BASE_PADDING.Y.Scale, BASE_PADDING.Y.Offset),
-			PaddingLeft = UDim.new(BASE_PADDING.X.Scale, BASE_PADDING.X.Offset),
-			PaddingRight = UDim.new(BASE_PADDING.X.Scale, BASE_PADDING.X.Offset),
-			PaddingTop = UDim.new(BASE_PADDING.Y.Scale, BASE_PADDING.Y.Offset),
-		})
-		siblings.padding = padding
-
-		local listLayout = Roact.createElement("UIListLayout", {
-			Padding = UDim.new(0, 0),
-			FillDirection = fillDirection,
-			VerticalAlignment = 0,
-			HorizontalAlignment = 0,
-		})
-		siblings.listLayout = listLayout
-	end
-
-	local backgroundColor
-	local colorIndex = (color or 0) + 1
-	if colorIndex > 0 then
-		backgroundColor = COLORS[colorIndex]
-	else
-		backgroundColor = INVALID_COLOR
-	end
-
-	return Roact.createElement("Frame", {
-		Name = name or "Box",
-		AutomaticSize = frameAutomaticSize,
-		BackgroundColor3 = backgroundColor,
-		BorderSizePixel = 0,
-		Size = size,
-	}, Object.assign(
-		{},
-		children,
-		siblings
-	))
+	return Box
 end
-
-return Box

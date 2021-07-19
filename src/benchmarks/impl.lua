@@ -1,6 +1,7 @@
-local rootWorkspace = script.Parent.Parent.Parent
+local rootWorkspace = script.Parent.Parent.Parent.Parent
+local Packages = rootWorkspace.Packages
 
-local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
+local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 local Array = LuauPolyfill.Array
 
@@ -17,28 +18,30 @@ type ImplementationType = {
 	version: string,
 }
 
-local toImplementations = function(deps): { ImplementationType }
-	return Array.map(Object.keys(deps), function(dependency: string)
-		local implementation = deps[dependency]
-		local components = {
-			Box = implementation.Box,
-			Dot = implementation.Dot,
-			Provider = implementation.Provider,
-			TextBox = implementation.TextBox,
-		}
-		local name = dependency
-		local version = "?"
-		return { components = components, name = name, version = version }
-	end)
-end
+return function(Roact, ReactRoblox)
+	local toImplementations = function(deps): { ImplementationType }
+		return Array.map(Object.keys(deps), function(dependency: string)
+			local implementation = deps[dependency](Roact, ReactRoblox)
+			local components = {
+				Box = implementation.Box,
+				Dot = implementation.Dot,
+				Provider = implementation.Provider,
+				TextBox = implementation.TextBox,
+			}
+			local name = dependency
+			local version = "?"
+			return { components = components, name = name, version = version }
+		end)
+	end
 
-local toObject = function(impls)
-	return Array.reduce(impls, function(acc, impl)
-		acc[impl.name] = impl
-		return acc
-	end, {})
-end
+	local toObject = function(impls)
+		return Array.reduce(impls, function(acc, impl)
+			acc[impl.name] = impl
+			return acc
+		end, {})
+	end
 
--- ROBLOX deviation: require.context doesn't exist to my knowledge. We just
--- hardcode the implementations for the benchmark.
-return toObject(toImplementations(dependencies))
+	-- ROBLOX deviation: require.context doesn't exist to my knowledge. We just
+	-- hardcode the implementations for the benchmark.
+	return toObject(toImplementations(dependencies))
+end

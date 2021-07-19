@@ -1,5 +1,5 @@
 {
-  "name": "BenchmarksExamplesCI",
+  "name": "ConcurrentExamplesCI",
   "tree": {
     "$className": "Folder",
 
@@ -13,9 +13,6 @@
       "$path": "Packages",
       "PerformanceBenchmarks": {
         "$path": "src"
-      },
-      "Benchmarks": {
-        "$path": "benchmarks"
       }
     }
   }
