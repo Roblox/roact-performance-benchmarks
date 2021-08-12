@@ -6,7 +6,7 @@ local ReactRoblox = require(Packages.Dev.ReactRoblox)
 
 local Tree = require(Packages.PerformanceBenchmarks.benchmarks.cases.Tree)(Roact, ReactRoblox)
 local TestUtils = require(Packages.PerformanceBenchmarks.benchmarks.testUtils)(Roact, ReactRoblox)
-local benchmark = require(Packages.Benchmarks.benchmark)(Roact, ReactRoblox)
+local benchmark = require(Packages.PerformanceBenchmarks.benchmark)(Roact, ReactRoblox)
 
 benchmark({
 	benchmarkName = "Mount deep tree",

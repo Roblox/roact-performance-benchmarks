@@ -1,8 +1,7 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent
-local Packages = rootWorkspace.Packages
-local Benchmarks = Packages.PerformanceBenchmarks.benchmarks
+local rootWorkspace = script.Parent.Parent.Parent
+local Benchmarks = rootWorkspace.PerformanceBenchmarks.benchmarks
 
-local LuauPolyfill = require(Packages.LuauPolyfill)
+local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 local Object = LuauPolyfill.Object
 local Array = LuauPolyfill.Array
 

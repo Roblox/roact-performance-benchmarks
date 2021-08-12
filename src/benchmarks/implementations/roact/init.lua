@@ -1,7 +1,6 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
-local Packages = rootWorkspace.Packages
+local rootWorkspace = script.Parent.Parent.Parent.Parent
 
-local roact = Packages.PerformanceBenchmarks.benchmarks.implementations.roact
+local roact = rootWorkspace.PerformanceBenchmarks.benchmarks.implementations.roact
 
 return function(Roact, ReactRoblox)
 	local Box = require(roact.Box)(Roact, ReactRoblox)

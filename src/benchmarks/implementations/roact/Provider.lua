@@ -1,7 +1,6 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent.Parent
-local Packages = rootWorkspace.Packages
+local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
 
-local Cryo = require(Packages.Cryo)
+local Cryo = require(rootWorkspace.Cryo)
 
 return function(Roact, ReactRoblox)
 	local Provider = function(props)

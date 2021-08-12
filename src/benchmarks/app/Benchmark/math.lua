@@ -1,7 +1,6 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent.Parent
-local Packages = rootWorkspace.Packages
+local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
 
-local LuauPolyfill = require(Packages.LuauPolyfill)
+local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 local Array = LuauPolyfill.Array
 
 type Array<T> = { [number]: T }

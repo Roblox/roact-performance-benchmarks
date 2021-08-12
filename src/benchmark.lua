@@ -1,24 +1,23 @@
-local rootWorkspace = script.Parent.Parent.Parent
-local Packages = rootWorkspace.Packages
+local rootWorkspace = script.Parent.Parent
+
+local Types = require(script.Parent.benchmarks.app.Benchmark.types)
 
 local PlayerGui = game:GetService("Players").LocalPlayer:WaitForChild("PlayerGui")
-local LuauPolyfill = require(Packages.LuauPolyfill)
-local setTimeout = LuauPolyfill.setTimeout
 
 type TestBlock = {
 	Component: any, -- Should be a Roact component
 	getComponentProps: ({ [any]: any }) -> { [any]: any },
-	sampleCount: Number,
+	sampleCount: number,
 	Provider: any, -- Should be a Roact component
-	benchmarkType: String,
-	version: String,
-	name: String,
+	benchmarkType: string,
+	version: string,
+	name: string,
 }
 
 type TestConfig = {
-	benchmarkName: String,
-	timeout: Number,
-	testBlock: { [String]: TestBlock },
+	benchmarkName: string,
+	timeout: number,
+	testBlock: { [string]: TestBlock },
 }
 
 local LIBRARY_NAME = "roact"
@@ -27,8 +26,8 @@ return function(Roact, ReactRoblox)
 	local useEffect = Roact.useEffect
 	local useRef = Roact.useRef
 
-	local bootstrap = require(Packages.Benchmarks.bootstrap)(Roact, ReactRoblox)
-	local Benchmark = require(Packages.PerformanceBenchmarks.benchmarks.app.Benchmark)(Roact, ReactRoblox)
+	local bootstrap = require(rootWorkspace.PerformanceBenchmarks.bootstrap)(Roact, ReactRoblox)
+	local Benchmark = require(rootWorkspace.PerformanceBenchmarks.benchmarks.app.Benchmark)(Roact, ReactRoblox)
 
 	return function(config: TestConfig)
 		local testBlock = config.testBlock[LIBRARY_NAME]
@@ -36,7 +35,7 @@ return function(Roact, ReactRoblox)
 		local stop = nil
 
 		-- Unmount the benchmark when done and dump the results to the console.
-		local onComplete = function(results: BenchResultsType)
+		local onComplete = function(results: Types.BenchResultsType)
 			stop()
 
 			isComplete = true

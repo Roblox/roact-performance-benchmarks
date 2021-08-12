@@ -1,8 +1,7 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent.Parent
-local Packages = rootWorkspace.Packages
+local rootWorkspace = script.Parent.Parent.Parent.Parent
 
-local Cryo = require(Packages.Cryo)
-local LuauPolyfill = require(Packages.LuauPolyfill)
+local Cryo = require(rootWorkspace.Cryo)
+local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 local Array = LuauPolyfill.Array
 local Boolean = LuauPolyfill.Boolean
 

@@ -13,9 +13,6 @@
       "$path": "Packages",
       "PerformanceBenchmarks": {
         "$path": "src"
-      },
-      "Benchmarks": {
-        "$path": "benchmarks"
       }
     }
   }

@@ -9,7 +9,7 @@ local SierpinskiTriangle = require(Packages.PerformanceBenchmarks.benchmarks.cas
 	ReactRoblox
 )
 local TestUtils = require(Packages.PerformanceBenchmarks.benchmarks.testUtils)(Roact, ReactRoblox)
-local benchmark = require(Packages.Benchmarks.benchmark)(Roact, ReactRoblox)
+local benchmark = require(Packages.PerformanceBenchmarks.benchmark)(Roact, ReactRoblox)
 
 benchmark({
 	benchmarkName = "Update dynamic styles",
