@@ -29,8 +29,8 @@ return function(Roact, ReactRoblox)
 				TextBox = implementation.TextBox,
 			}
 			local name = dependency
-			local version = "?"
-			return { components = components, name = name, version = version }
+			local libraryVersion = "?"
+			return { components = components, name = name, version = libraryVersion }
 		end)
 	end
 

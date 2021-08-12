@@ -41,17 +41,17 @@ return function(Roact, ReactRoblox, Scheduler)
 				table.insert(values, deltaTime * 1000)
 				table.insert(fpsValues, fps)
 				if config.verbose then
-					local stats = calculateStats(values)
+					local benchmarkStats = calculateStats(values)
 					local fpsStats = calculateStats(fpsValues)
 					print(Array.join({
 						("#%04d"):format(#values),
 						("\u{0394}t: %8.4f"):format(deltaTime * 1000),
 						("FPS: %8.4f"):format(fps),
-						("AVG(\u{0394}t/FPS): %8.4f / %8.4f"):format(1 / (stats.mean / 1000), fpsStats.mean),
-						("VAR(\u{0394}t/FPS): %8.4f / %8.4f"):format(stats.variance, fpsStats.variance),
-						("σ(\u{0394}t/FPS): %8.4f / %8.4f"):format(stats.stdDev, fpsStats.stdDev),
-						("MIN(\u{0394}t/FPS): %8.4f / %8.4f"):format(stats.min, fpsStats.min),
-						("MAX(\u{0394}t/FPS): %8.4f / %8.4f"):format(stats.max, fpsStats.max),
+						("AVG(\u{0394}t/FPS): %8.4f / %8.4f"):format(1 / (benchmarkStats.mean / 1000), fpsStats.mean),
+						("VAR(\u{0394}t/FPS): %8.4f / %8.4f"):format(benchmarkStats.variance, fpsStats.variance),
+						("σ(\u{0394}t/FPS): %8.4f / %8.4f"):format(benchmarkStats.stdDev, fpsStats.stdDev),
+						("MIN(\u{0394}t/FPS): %8.4f / %8.4f"):format(benchmarkStats.min, fpsStats.min),
+						("MAX(\u{0394}t/FPS): %8.4f / %8.4f"):format(benchmarkStats.max, fpsStats.max),
 					}, "\t|\t"))
 				end
 			end)
@@ -81,18 +81,18 @@ return function(Roact, ReactRoblox, Scheduler)
 
 		stop()
 
-		local stats = calculateStats(values)
+		local benchmarkStats = calculateStats(values)
 		local fpsStats = calculateStats(fpsValues)
 
-		local avgFps = 1 / (stats.mean / 1000)
-		local stdDev = math.sqrt(1 / (stats.variance / 1000))
+		local avgFps = 1 / (benchmarkStats.mean / 1000)
+		local stdDev = math.sqrt(1 / (benchmarkStats.variance / 1000))
 		local stdDevPercent = stdDev / avgFps * 100
 
 		print(
 			("FrameRate#FPS1 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
 				avgFps,
 				stdDevPercent,
-				stats.count,
+				benchmarkStats.count,
 				version()
 			)
 		)
@@ -106,9 +106,9 @@ return function(Roact, ReactRoblox, Scheduler)
 		)
 		print(
 			("FrameRate#\u{0394}t x %4.4f ms/op ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
-				stats.mean,
-				stats.stdDev / stats.mean * 100,
-				stats.count,
+				benchmarkStats.mean,
+				benchmarkStats.stdDev / benchmarkStats.mean * 100,
+				benchmarkStats.count,
 				version()
 			)
 		)

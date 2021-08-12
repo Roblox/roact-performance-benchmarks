@@ -32,14 +32,14 @@ return function(Roact, ReactRoblox, Scheduler)
 				table.insert(values, deltaTime * 1000)
 
 				if config.verbose then
-					local stats = calculateStats(values)
+					local benchmarkStats = calculateStats(values)
 					print(Array.join({
 						("#%04d"):format(#values),
 						("TIME: %8.2f"):format(deltaTime * 1000),
-						("AVG: %8.4f"):format(stats.mean),
-						("VAR: %8.4f"):format(stats.variance),
-						("MIN: %8.4f"):format(stats.min),
-						("MAX: %8.4f"):format(stats.max),
+						("AVG: %8.4f"):format(benchmarkStats.mean),
+						("VAR: %8.4f"):format(benchmarkStats.variance),
+						("MIN: %8.4f"):format(benchmarkStats.min),
+						("MAX: %8.4f"):format(benchmarkStats.max),
 					}, "\t|\t"))
 				end
 				index += 1
@@ -66,13 +66,13 @@ return function(Roact, ReactRoblox, Scheduler)
 			rootInstance:ClearAllChildren()
 		end
 
-		local stats = calculateStats(values)
+		local benchmarkStats = calculateStats(values)
 
 		print(
 			("FirstRendert#\u{0394}t x %4.4f sec/op ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
-				stats.mean,
-				stats.stdDev,
-				stats.count,
+				benchmarkStats.mean,
+				benchmarkStats.stdDev,
+				benchmarkStats.count,
 				version()
 			)
 		)

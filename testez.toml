@@ -84,3 +84,6 @@ required = true
 [[xdescribe.args]]
 type = "function"
 required = true
+
+[version]
+any = true

@@ -14,7 +14,8 @@ return function(Roact, ReactRoblox)
 	local function createTestBlock(fn)
 		return Array.reduce(packageNames, function(testSetups, packageName)
 			local implementation = implementations[packageName]
-			local name, components, version = implementation.name, implementation.components, implementation.version
+			local name, components, libraryVersion =
+				implementation.name, implementation.components, implementation.version
 
 			local componentInfo = fn(components)
 			local Component, getComponentProps, sampleCount, Provider, benchmarkType, anchorPoint =
@@ -31,7 +32,7 @@ return function(Roact, ReactRoblox)
 				sampleCount = sampleCount,
 				Provider = Provider,
 				benchmarkType = benchmarkType,
-				version = version,
+				version = libraryVersion,
 				name = name,
 				anchorPoint = anchorPoint,
 			}

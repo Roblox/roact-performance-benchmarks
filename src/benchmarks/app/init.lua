@@ -6,6 +6,8 @@ local LuauPolyfill = require(Packages.LuauPolyfill)
 local Object = LuauPolyfill.Object
 local Array = LuauPolyfill.Array
 
+local Types = require(script.Benchmark.types)
+
 -- ROBLOX deviation: no context object available, use props.
 return function(Roact, ReactRoblox)
 	local useState = Roact.useState
@@ -19,7 +21,7 @@ return function(Roact, ReactRoblox)
 
 	local App = function(props)
 		local currentBenchmarkName, setCurrentBenchmarkName = useState(Object.keys(props.tests)[1])
-		local currentLibraryName, setCurrentLibraryName = useState("roact")
+		local currentLibraryName = useState("roact")
 		local status, setStatus = useState("idle")
 		local results, setResults = useState({})
 		local benchRef = useRef(false)
@@ -49,9 +51,9 @@ return function(Roact, ReactRoblox)
 			benchmark:start()
 		end
 
-		local createHandleComplete = function(props)
-			return function(new_results: BenchResultsType)
-				local benchmarkName, libraryName = props.benchmarkName, props.libraryName
+		local createHandleComplete = function(parentProps)
+			return function(new_results: Types.BenchResultsType)
+				local benchmarkName, libraryName = parentProps.benchmarkName, parentProps.libraryName
 
 				-- TODO: Format these numbers into something readable.
 				print("Got results = " .. tostring(new_results))

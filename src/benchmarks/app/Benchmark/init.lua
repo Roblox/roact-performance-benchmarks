@@ -6,12 +6,13 @@ local LuauPolyfill = require(Packages.LuauPolyfill)
 local Array = LuauPolyfill.Array
 local Boolean = LuauPolyfill.Boolean
 
-local Timing = require(script.Parent.Benchmark.timing)
 local Math = require(script.Parent.Benchmark.math)
+local Timing = require(script.Parent.Benchmark.timing)
+local Types = require(script.Parent.Benchmark.types)
 
 local RunService = game:GetService("RunService")
 
-local BenchmarkType: BenchmarkType = {
+local BenchmarkType: Types.BenchmarkType = {
 	MOUNT = "mount",
 	UPDATE = "update",
 	UNMOUNT = "unmount",
@@ -80,7 +81,7 @@ type BenchmarkPropsType = {
 	component: any, -- Should be a Roact component
 	forceLayout: boolean?,
 	getComponentProps: ({ [any]: any }) -> { [any]: any },
-	onComplete: (BenchResultsType) -> (),
+	onComplete: (Types.BenchResultsType) -> (),
 	sampleCount: number,
 	timeout: number,
 	type: string,
@@ -133,6 +134,7 @@ return function(Roact, ReactRoblox)
 				}),
 			}
 		end
+		return nil
 	end
 
 	function Benchmark:componentDidUpdate()

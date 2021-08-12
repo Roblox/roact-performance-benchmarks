@@ -186,13 +186,13 @@ return function(Roact, Scheduler)
 	local function Dolly(props)
 		-- const { clock, camera } = useThree()
 		local t = os.clock()
-		local function elapsedTime()
+		local function getElapsedTime()
 			return os.clock() - t
 		end
 		useFrame(function()
 			if props.canvasRef.current then
 				props.canvasRef.current.CFrame = CFrame.new(
-					Vector3.new(0, 0, 6 + math.sin(elapsedTime() * 3) * 2),
+					Vector3.new(0, 0, 6 + math.sin(getElapsedTime() * 3) * 2),
 					Vector3.new(0, 0, 0)
 				)
 			end
