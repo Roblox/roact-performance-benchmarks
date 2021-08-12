@@ -15,6 +15,7 @@ roblox-cli analyze tests.project.json
 selene src
 
 echo "Run tests in DEV"
-roblox-cli run --load.model model.rbxmx --run scripts/spec.lua --testService.errorExitCode=1 --fastFlags.overrides "UseDateTimeType3=true" "EnableLoadModule=true" --lua.globals=__DEV__=true
+roblox-cli run --load.model tests.project.json --run scripts/spec.lua --testService.errorExitCode=1 --fastFlags.overrides "UseDateTimeType3=true" "EnableLoadModule=true" --lua.globals=__DEV__=true
+
 echo "Run tests in release"
-roblox-cli run --load.model model.rbxmx --run scripts/spec.lua --testService.errorExitCode=1 --fastFlags.overrides "UseDateTimeType3=true" "EnableLoadModule=true"
+roblox-cli run --load.model tests.project.json --run scripts/spec.lua --testService.errorExitCode=1 --fastFlags.overrides "UseDateTimeType3=true" "EnableLoadModule=true"

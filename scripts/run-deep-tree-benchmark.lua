@@ -5,13 +5,13 @@ local Roact = require(Packages.Dev.Roact)
 local ReactRoblox = require(Packages.Dev.ReactRoblox)
 
 local Tree = require(Packages.PerformanceBenchmarks.benchmarks.cases.Tree)(Roact, ReactRoblox)
-local TestUtils = require(Packages.PerformanceBenchmarks.benchmarks.testUtils)(Roact, ReactRoblox)
+local Utils = require(Packages.PerformanceBenchmarks.benchmarks.utils)(Roact, ReactRoblox)
 local benchmark = require(Packages.PerformanceBenchmarks.benchmark)(Roact, ReactRoblox)
 
 benchmark({
 	benchmarkName = "Mount deep tree",
 	timeout = 20000,
-	testBlock = TestUtils.createTestBlock(function(components)
+	testBlock = Utils.createTestBlock(function(components)
 		return {
 			benchmarkType = "mount",
 			Component = Tree.Tree,

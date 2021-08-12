@@ -4,13 +4,13 @@ local Benchmarks = rootWorkspace.PerformanceBenchmarks.benchmarks
 -- ROBLOX deviation: return an element instead of rendering here so bootstrap
 -- code needed to connect to engine can reside elsewhere.
 return function(Roact, ReactRoblox)
-	local TestUtils = require(Benchmarks.testUtils)(Roact, ReactRoblox)
+	local Utils = require(Benchmarks.utils)(Roact, ReactRoblox)
 	local App = require(Benchmarks.app)(Roact, ReactRoblox)
 	local Tree = require(Benchmarks.cases.Tree)(Roact, ReactRoblox)
 	local SierpinskiTriangle = require(Benchmarks.cases.SierpinskiTriangle)(Roact, ReactRoblox)
 
 	local tests = {
-		["Mount deep tree"] = TestUtils.createTestBlock(function(components)
+		["Mount deep tree"] = Utils.createTestBlock(function(components)
 			return {
 				benchmarkType = "mount",
 				Component = Tree.Tree,
@@ -22,7 +22,7 @@ return function(Roact, ReactRoblox)
 				anchorPoint = Vector2.new(0.5, 0.5),
 			}
 		end),
-		["Mount wide tree"] = TestUtils.createTestBlock(function(components)
+		["Mount wide tree"] = Utils.createTestBlock(function(components)
 			return {
 				benchmarkType = "mount",
 				Component = Tree.Tree,
@@ -34,7 +34,7 @@ return function(Roact, ReactRoblox)
 				anchorPoint = Vector2.new(0.5, 0.5),
 			}
 		end),
-		["Update dynamic styles"] = TestUtils.createTestBlock(function(components)
+		["Update dynamic styles"] = Utils.createTestBlock(function(components)
 			return {
 				benchmarkType = "update",
 				Component = SierpinskiTriangle.SierpinskiTriangle,
@@ -53,7 +53,7 @@ return function(Roact, ReactRoblox)
 				anchorPoint = Vector2.new(0, 0),
 			}
 		end),
-		-- ["Mount text tree"] = TestUtils.createTestBlock(function(components)
+		-- ["Mount text tree"] = Utils.createTestBlock(function(components)
 		-- 	return {
 		-- 		benchmarkType = "mount",
 		-- 		Component = TextTree.TextTree,
