@@ -39,14 +39,6 @@ return function(Roact, ReactRoblox)
 		local handleStart = function()
 			setStatus("running")
 
-			print(
-				"handleStart invoked, starting benchmark '"
-					.. currentBenchmarkName
-					.. "' for library'"
-					.. currentLibraryName
-					.. "'"
-			)
-
 			local benchmark = benchRef.current
 			benchmark:start()
 		end
@@ -55,17 +47,14 @@ return function(Roact, ReactRoblox)
 			return function(new_results: Types.BenchResultsType)
 				local benchmarkName, libraryName = parentProps.benchmarkName, parentProps.libraryName
 
-				-- TODO: Format these numbers into something readable.
-				print("Got results = " .. tostring(new_results))
-				print("    Run Time: " .. new_results.runTime)
-				print("    Sample Count: " .. new_results.sampleCount)
-				print("    Max: " .. new_results.max)
-				print("    Min: " .. new_results.min)
-				print("    Median: " .. new_results.median)
-				print("    Mean: " .. new_results.mean)
-				print("    SD: " .. new_results.stdDev)
-				print("    MeanLayout: " .. new_results.meanLayout)
-				print("    MeanScripting: " .. new_results.meanScripting)
+				print("Results for " .. currentBenchmarkName .. " using " .. currentLibraryName)
+				print(("├─ Run Time: %.3f ms"):format(new_results.runTime))
+				print(("├─ Sample Count: %d"):format(new_results.sampleCount))
+				print(("├─ Max: %.3f ms"):format(new_results.max))
+				print(("├─ Min: %.3f ms"):format(new_results.min))
+				print(("├─ Median: %.3f ms"):format(new_results.median))
+				print(("├─ Mean: %.3f ms"):format(new_results.mean))
+				print(("└─ Standard Deviation: %3.2f%%"):format(new_results.stdDev))
 
 				setResults(Array.concat(
 					results,
