@@ -69,10 +69,11 @@ return function(Roact, ReactRoblox, Scheduler)
 		local stats = calculateStats(values)
 
 		print(
-			("FirstRendert#\u{0394}t x %4.4f sec/op ±%3.2f%% (%d runs sampled)"):format(
+			("FirstRendert#\u{0394}t x %4.4f sec/op ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
 				stats.mean,
 				stats.stdDev,
-				stats.count
+				stats.count,
+				version()
 			)
 		)
 	end

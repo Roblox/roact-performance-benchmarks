@@ -88,19 +88,28 @@ return function(Roact, ReactRoblox, Scheduler)
 		local stdDev = math.sqrt(1 / (stats.variance / 1000))
 		local stdDevPercent = stdDev / avgFps * 100
 
-		print(("FrameRate#FPS1 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)"):format(avgFps, stdDevPercent, stats.count))
 		print(
-			("FrameRate#FPS2 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)"):format(
-				fpsStats.mean,
-				fpsStats.stdDev / fpsStats.mean * 100,
-				fpsStats.count
+			("FrameRate#FPS1 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
+				avgFps,
+				stdDevPercent,
+				stats.count,
+				version()
 			)
 		)
 		print(
-			("FrameRate#\u{0394}t x %4.4f ms/op ±%3.2f%% (%d runs sampled)"):format(
+			("FrameRate#FPS2 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
+				fpsStats.mean,
+				fpsStats.stdDev / fpsStats.mean * 100,
+				fpsStats.count,
+				version()
+			)
+		)
+		print(
+			("FrameRate#\u{0394}t x %4.4f ms/op ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
 				stats.mean,
 				stats.stdDev / stats.mean * 100,
-				stats.count
+				stats.count,
+				version()
 			)
 		)
 	end

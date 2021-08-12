@@ -45,24 +45,27 @@ return function(Roact, ReactRoblox)
 			local stdDevPercent = results.stdDev / avgFps * 100
 
 			print(
-				("FrameRate#FPS1 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)"):format(
+				("FrameRate#FPS1 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
 					avgFps,
 					stdDevPercent,
-					results.sampleCount
+					results.sampleCount,
+					version()
 				)
 			)
 			print(
-				("FrameRate#FPS2 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)"):format(
+				("FrameRate#FPS2 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
 					results.mean,
 					results.stdDev / results.mean * 100,
-					results.sampleCount
+					results.sampleCount,
+					version()
 				)
 			)
 			print(
-				("FrameRate#\u{0394}t x %4.4f ms/op ±%3.2f%% (%d runs sampled)"):format(
+				("FrameRate#\u{0394}t x %4.4f ms/op ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
 					results.mean,
 					results.stdDev / results.mean * 100,
-					results.sampleCount
+					results.sampleCount,
+					version()
 				)
 			)
 		end
