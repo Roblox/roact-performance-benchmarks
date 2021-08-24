@@ -1,4 +1,4 @@
-local rootWorkspace = script.Parent.Parent
+local srcWorkspace = script.Parent
 
 local Types = require(script.Parent.benchmarks.app.Benchmark.types)
 
@@ -26,8 +26,9 @@ return function(Roact, ReactRoblox)
 	local useEffect = Roact.useEffect
 	local useRef = Roact.useRef
 
-	local bootstrap = require(rootWorkspace.PerformanceBenchmarks.bootstrap)(Roact, ReactRoblox)
-	local Benchmark = require(rootWorkspace.PerformanceBenchmarks.benchmarks.app.Benchmark)(Roact, ReactRoblox)
+	local bootstrap = require(srcWorkspace.bootstrap)(Roact, ReactRoblox)
+	local Benchmark = require(srcWorkspace.benchmarks.app.Benchmark)(Roact, ReactRoblox)
+	local formatBenchmark = require(srcWorkspace.utils.formatBenchmark).formatBenchmark
 
 	return function(config: TestConfig)
 		local testBlock = config.testBlock[LIBRARY_NAME]
@@ -43,30 +44,30 @@ return function(Roact, ReactRoblox)
 			local avgFps = 1 / (results.mean / 1000)
 			local stdDevPercent = results.stdDev / avgFps * 100
 
-			print(
-				("FrameRate#FPS1 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
-					avgFps,
-					stdDevPercent,
-					results.sampleCount,
-					version()
-				)
-			)
-			print(
-				("FrameRate#FPS2 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
-					results.mean,
-					results.stdDev / results.mean * 100,
-					results.sampleCount,
-					version()
-				)
-			)
-			print(
-				("FrameRate#\u{0394}t x %4.4f ms/op ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
-					results.mean,
-					results.stdDev / results.mean * 100,
-					results.sampleCount,
-					version()
-				)
-			)
+			print(formatBenchmark({
+				group = "FrameRate",
+				name = "FPS1",
+				mean = avgFps,
+				unit = "ops/sec",
+				stdDev = stdDevPercent,
+				samples = results.sampleCount,
+			}))
+			print(formatBenchmark({
+				group = "FrameRate",
+				name = "FPS2",
+				mean = results.mean,
+				unit = "ops/sec",
+				stdDev = results.stdDev / results.mean * 100,
+				samples = results.sampleCount,
+			}))
+			print(formatBenchmark({
+				group = "FrameRate",
+				name = "Δt",
+				mean = results.mean,
+				unit = "ms/op",
+				stdDev = results.stdDev / results.mean * 100,
+				samples = results.sampleCount,
+			}))
 		end
 
 		local BenchmarkWrapper = function()

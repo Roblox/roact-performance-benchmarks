@@ -1,5 +1,4 @@
-local rootWorkspace = script.Parent.Parent
-local Benchmarks = rootWorkspace.PerformanceBenchmarks.benchmarks
+local Benchmarks = script.Parent.benchmarks
 
 -- ROBLOX deviation: return an element instead of rendering here so bootstrap
 -- code needed to connect to engine can reside elsewhere.

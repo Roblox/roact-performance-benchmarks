@@ -20,6 +20,7 @@ return function(Roact, ReactRoblox, Scheduler)
 		local Object = require(rootWorkspace.LuauPolyfill).Object
 		local Concurrent = require(srcWorkspace.concurrent)(Roact, Scheduler).Concurrent
 		local useFrame = require(srcWorkspace.hooks.useFrame)(Roact)
+		local formatBenchmark = require(srcWorkspace.utils.formatBenchmark).formatBenchmark
 		local bootstrap = require(script.Parent.bootstrap)(Roact, ReactRoblox)
 		local calculateStats = require(script.Parent.calculateStats)
 
@@ -84,33 +85,21 @@ return function(Roact, ReactRoblox, Scheduler)
 		local benchmarkStats = calculateStats(values)
 		local fpsStats = calculateStats(fpsValues)
 
-		local avgFps = 1 / (benchmarkStats.mean / 1000)
-		local stdDev = math.sqrt(1 / (benchmarkStats.variance / 1000))
-		local stdDevPercent = stdDev / avgFps * 100
-
-		print(
-			("FrameRate#FPS1 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
-				avgFps,
-				stdDevPercent,
-				benchmarkStats.count,
-				version()
-			)
-		)
-		print(
-			("FrameRate#FPS2 x %4.4f ops/sec ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
-				fpsStats.mean,
-				fpsStats.stdDev / fpsStats.mean * 100,
-				fpsStats.count,
-				version()
-			)
-		)
-		print(
-			("FrameRate#\u{0394}t x %4.4f ms/op ±%3.2f%% (%d runs sampled)(roblox-cli version %s)"):format(
-				benchmarkStats.mean,
-				benchmarkStats.stdDev / benchmarkStats.mean * 100,
-				benchmarkStats.count,
-				version()
-			)
-		)
+		print(formatBenchmark({
+			group = "FrameRate",
+			name = "FPS",
+			mean = fpsStats.mean,
+			unit = "ops/sec",
+			stdDev = fpsStats.stdDev / fpsStats.mean * 100,
+			samples = fpsStats.count,
+		}))
+		print(formatBenchmark({
+			group = "FrameRate",
+			name = "Δt",
+			mean = benchmarkStats.mean,
+			unit = "ms/op",
+			stdDev = benchmarkStats.stdDev / benchmarkStats.mean * 100,
+			samples = benchmarkStats.count,
+		}))
 	end
 end

@@ -1,12 +1,8 @@
-local rootWorkspace = script.Parent.Parent.Parent.Parent
-
-local roact = rootWorkspace.PerformanceBenchmarks.benchmarks.implementations.roact
-
 return function(Roact, ReactRoblox)
-	local Box = require(roact.Box)(Roact, ReactRoblox)
-	local Dot = require(roact.Dot)(Roact, ReactRoblox)
-	local Provider = require(roact.Provider)(Roact, ReactRoblox)
-	local TextBox = require(roact.TextBox)(Roact, ReactRoblox)
+	local Box = require(script.Box)(Roact, ReactRoblox)
+	local Dot = require(script.Dot)(Roact, ReactRoblox)
+	local Provider = require(script.Provider)(Roact, ReactRoblox)
+	local TextBox = require(script.TextBox)(Roact, ReactRoblox)
 
 	return {
 		Box = Box,

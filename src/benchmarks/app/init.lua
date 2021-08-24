@@ -1,5 +1,4 @@
 local rootWorkspace = script.Parent.Parent.Parent
-local Benchmarks = rootWorkspace.PerformanceBenchmarks.benchmarks
 
 local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 local Object = LuauPolyfill.Object
@@ -12,11 +11,11 @@ return function(Roact, ReactRoblox)
 	local useState = Roact.useState
 	local useRef = Roact.useRef
 
-	local Benchmark = require(Benchmarks.app.Benchmark)(Roact, ReactRoblox)
-	local Button = require(Benchmarks.app.Button)(Roact, ReactRoblox)
-	local Entry = require(Benchmarks.app.Picker.Entry)(Roact, ReactRoblox)
-	local Header = require(Benchmarks.app.Picker.Header)(Roact, ReactRoblox)
-	local Picker = require(Benchmarks.app.Picker)(Roact, ReactRoblox)
+	local Benchmark = require(script.Benchmark)(Roact, ReactRoblox)
+	local Button = require(script.Button)(Roact, ReactRoblox)
+	local Entry = require(script.Picker.Entry)(Roact, ReactRoblox)
+	local Header = require(script.Picker.Header)(Roact, ReactRoblox)
+	local Picker = require(script.Picker)(Roact, ReactRoblox)
 
 	local App = function(props)
 		local currentBenchmarkName, setCurrentBenchmarkName = useState(Object.keys(props.tests)[1])

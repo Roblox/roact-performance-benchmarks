@@ -124,9 +124,9 @@ return function(Roact, Scheduler)
 
 			qty += 1
 			--[[
-			ROBLOX deviation:
-			if we round the avg delta in here and don't update currentAvg each time it becomes basically impossible for the fps avg to be updated when qty value becomes larger
-		]]
+				ROBLOX deviation:
+				if we round the avg delta in here and don't update currentAvg each time it becomes basically impossible for the fps avg to be updated when qty value becomes larger
+			]]
 			local avg = (fps - currentAvg) / qty
 			local lastAvg = currentAvg
 			currentAvg += avg

@@ -1,5 +1,5 @@
 local rootWorkspace = script.Parent.Parent.Parent
-local Benchmarks = rootWorkspace.PerformanceBenchmarks.benchmarks
+local Benchmarks = script.Parent.Parent.benchmarks
 
 local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 local Object = LuauPolyfill.Object
