@@ -41,23 +41,12 @@ return function(Roact, ReactRoblox)
 
 			isComplete = true
 
-			local avgFps = 1 / (results.mean / 1000)
-			local stdDevPercent = results.stdDev / avgFps * 100
-
 			print(formatBenchmark({
 				group = "FrameRate",
-				name = "FPS1",
-				mean = avgFps,
+				name = "FPS",
+				mean = results.meanFPS,
 				unit = "ops/sec",
-				stdDev = stdDevPercent,
-				samples = results.sampleCount,
-			}))
-			print(formatBenchmark({
-				group = "FrameRate",
-				name = "FPS2",
-				mean = results.mean,
-				unit = "ops/sec",
-				stdDev = results.stdDev / results.mean * 100,
+				stdDev = results.stdDevFPS / results.meanFPS * 100,
 				samples = results.sampleCount,
 			}))
 			print(formatBenchmark({

@@ -9,6 +9,11 @@ export type BenchResultsType = {
 	median: number,
 	mean: number,
 	stdDev: number,
+	maxFPS: number,
+	minFPS: number,
+	medianFPS: number,
+	meanFPS: number,
+	stdDevFPS: number,
 	meanLayout: number,
 	meanScripting: number,
 }

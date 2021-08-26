@@ -307,6 +307,9 @@ return function(Roact, ReactRoblox)
 			end),
 			sortNumbers
 		)
+		local sortedFPSSamples = Array.map(sortedElapsedTimes, function(delta: number)
+			return 1 / delta * 1000 -- Convert delta times to FPS.
+		end)
 		local sortedScriptingElapsedTimes = Array.sort(
 			Array.map(samples, function(props)
 				local scriptingStart, scriptingEnd = props.scriptingStart, props.scriptingEnd
@@ -341,6 +344,11 @@ return function(Roact, ReactRoblox)
 			median = Math.getMedian(sortedElapsedTimes),
 			mean = Math.getMean(sortedElapsedTimes),
 			stdDev = Math.getStdDev(sortedElapsedTimes),
+			maxFPS = sortedFPSSamples[#sortedFPSSamples],
+			minFPS = sortedFPSSamples[1],
+			medianFPS = Math.getMedian(sortedFPSSamples),
+			meanFPS = Math.getMean(sortedFPSSamples),
+			stdDevFPS = Math.getStdDev(sortedFPSSamples),
 			meanLayout = Math.getMean(sortedLayoutElapsedTimes),
 			meanScripting = Math.getMean(sortedScriptingElapsedTimes),
 		})
