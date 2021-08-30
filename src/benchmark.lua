@@ -18,6 +18,8 @@ type TestConfig = {
 	benchmarkName: string,
 	timeout: number,
 	testBlock: { [string]: TestBlock },
+	useLegacyRoot: boolean?,
+	disableRenderStep: boolean?,
 }
 
 local LIBRARY_NAME = "roact"
@@ -27,18 +29,23 @@ return function(Roact, ReactRoblox)
 	local useRef = Roact.useRef
 
 	local bootstrap = require(srcWorkspace.bootstrap)(Roact, ReactRoblox)
+	local bootstrapSync = require(srcWorkspace.testUtils.bootstrapSync)(Roact, ReactRoblox)
 	local Benchmark = require(srcWorkspace.benchmarks.app.Benchmark)(Roact, ReactRoblox)
 	local formatBenchmark = require(srcWorkspace.utils.formatBenchmark).formatBenchmark
+	local ErrorBoundary = require(srcWorkspace.components.ErrorBoundary)(Roact, ReactRoblox)
 
 	return function(config: TestConfig)
 		local testBlock = config.testBlock[LIBRARY_NAME]
 		local isComplete = false
+		local error_ = nil
 		local stop = nil
+		local benchmarkResults = nil
 
 		-- Unmount the benchmark when done and dump the results to the console.
 		local onComplete = function(results: Types.BenchResultsType)
 			stop()
 
+			benchmarkResults = results
 			isComplete = true
 
 			print(formatBenchmark({
@@ -59,6 +66,13 @@ return function(Roact, ReactRoblox)
 			}))
 		end
 
+		-- Unmount if there's an error so tests don't hang indefinitely.
+		local onError = function(error, info)
+			stop()
+			isComplete = true
+			error_ = error
+		end
+
 		local BenchmarkWrapper = function()
 			local benchmarkRef = useRef(false)
 
@@ -73,24 +87,35 @@ return function(Roact, ReactRoblox)
 				forceLayout = true,
 				getComponentProps = testBlock.getComponentProps,
 				onComplete = onComplete,
+				disableRenderStep = config.disableRenderStep,
 				ref = benchmarkRef,
 				sampleCount = testBlock.sampleCount,
 				timeout = config.timeout,
 				type = testBlock.benchmarkType,
 			})
 
-			return benchmark
+			return Roact.createElement(ErrorBoundary, { onError = onError }, { benchmark })
 		end
 
 		-- Create and mount the benchmark component.
 		local rootInstance = Instance.new("Folder")
 		rootInstance.Name = "GuiRoot"
 		rootInstance.Parent = PlayerGui
-		stop = bootstrap(rootInstance, BenchmarkWrapper)
+		if config.useLegacyRoot then
+			stop = bootstrapSync(rootInstance, BenchmarkWrapper)
+		else
+			stop = bootstrap(rootInstance, BenchmarkWrapper)
+		end
 
 		-- Prevent the CLI from closing while the benchmark is in progress.
 		while not isComplete do
 			wait(1)
+		end
+
+		if error_ then
+			return { error = error_ }
+		else
+			return { results = benchmarkResults }
 		end
 	end
 end

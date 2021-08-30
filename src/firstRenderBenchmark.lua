@@ -77,5 +77,7 @@ return function(Roact, ReactRoblox, Scheduler)
 			stdDev = benchmarkStats.stdDev,
 			samples = benchmarkStats.count,
 		}))
+
+		return benchmarkStats
 	end
 end

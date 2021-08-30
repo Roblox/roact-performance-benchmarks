@@ -81,6 +81,7 @@ type BenchmarkPropsType = {
 	forceLayout: boolean?,
 	getComponentProps: ({ [any]: any }) -> { [any]: any },
 	onComplete: (Types.BenchResultsType) -> (),
+	onError: () -> (),
 	sampleCount: number,
 	timeout: number,
 	type: string,
@@ -263,10 +264,10 @@ return function(Roact, ReactRoblox)
 				layoutEnd = layoutEnd,
 			})
 			return memo
-		end)
+		end, {})
 	end
 
-	function Benchmark:_handleCycleComplete()
+	function Benchmark:step()
 		local getComponentProps, benchmarkType, sampleCount =
 			self.props.getComponentProps, self.props.type, self.props.sampleCount
 		local cycle = self.state.cycle
@@ -279,14 +280,24 @@ return function(Roact, ReactRoblox)
 			end
 		end
 
-		if self._render_step == nil then
-			self._render_step = "BenchmarkRenderStep"
-			RunService:BindToRenderStep(self._render_step, Enum.RenderPriority.First.Value, function()
-				self:setState({
-					cycle = self.state.cycle + 1,
-					componentProps = componentProps,
-				})
-			end)
+		self:setState({
+			cycle = self.state.cycle + 1,
+			componentProps = componentProps,
+		})
+	end
+
+	function Benchmark:_handleCycleComplete()
+		local disableRenderStep = self.props.disableRenderStep
+
+		if disableRenderStep then
+			self:step()
+		else
+			if self._render_step == nil then
+				self._render_step = "BenchmarkRenderStep"
+				RunService:BindToRenderStep(self._render_step, Enum.RenderPriority.First.Value, function()
+					self:step()
+				end)
+			end
 		end
 	end
 
