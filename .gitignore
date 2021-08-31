@@ -29,6 +29,7 @@ debug.log
 !.vscode/launch.json
 !.vscode/extensions.json
 
+
 # misc
 /luacov.*
 /lcov*
@@ -36,3 +37,5 @@ debug.log
 /rotriever.lock
 /output.txt
 .vscode/launch.json
+cachegrind.out.*
+callgrind.out.*

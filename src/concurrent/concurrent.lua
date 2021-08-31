@@ -130,7 +130,8 @@ return function(Roact, Scheduler)
 			local avg = (fps - currentAvg) / qty
 			local lastAvg = currentAvg
 			currentAvg += avg
-			if math.round(currentAvg) ~= math.round(lastAvg) then
+			-- ROBLOX TODO: remove ref.current ~= nil when ref is guaranteed to be not nil
+			if math.round(currentAvg) ~= math.round(lastAvg) and ref.current ~= nil then
 				ref.current.Text = SPIKE_AMOUNT
 					.. " spikes\n"
 					.. BLOCK_AMOUNT
