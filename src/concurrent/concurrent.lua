@@ -31,6 +31,7 @@ return function(Roact, Scheduler)
 
 	local _geom = {} -- new BoxBufferGeometry(1, 1, 1)
 	local _matr = {} -- new MeshNormalMaterial()
+	local isCachegrind = _G.cachegrind == "true"
 
 	local rpi = function()
 		return math.random() * math.pi
@@ -60,11 +61,18 @@ return function(Roact, Scheduler)
 
 		useEffect(function()
 			if change then
+				local duration
+				if isCachegrind then
+					duration = 100
+				else
+					duration = math.random() * 1000
+				end
+
 				setTimeout(function()
 					run(low, function()
 						return mounted.current and set(Color3.new(math.random(), math.random(), math.random()))
 					end)
-				end, math.random() * 1000)
+				end, duration)
 			end
 		end, {
 			change,

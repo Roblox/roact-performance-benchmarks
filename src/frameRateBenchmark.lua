@@ -76,8 +76,9 @@ return function(Roact, ReactRoblox, Scheduler)
 
 		wait(config.minTime)
 
+		local sampleDelta = 1 / 30
 		while #values < config.minSamples do
-			wait(1)
+			wait(sampleDelta)
 		end
 
 		stop()

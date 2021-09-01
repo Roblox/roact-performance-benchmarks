@@ -23,6 +23,7 @@ now_ms() {
 
 # Run cachegrind on a given benchmark and echo the results.
 CLI_VERSION=$($1 version | tr -d '\n')
+ITERATION_COUNT=$4
 START_TIME=$(now_ms)
 
 valgrind \
@@ -32,6 +33,8 @@ valgrind \
         --load.model model.rbxm \
         --run "$2" \
         --headlessRenderer 1 \
+        --lua.globals minSamples=$ITERATION_COUNT \
+        --lua.globals cachegrind=true \
     >/dev/null
 
 TIME_ELAPSED=$(bc <<< "$(now_ms) - ${START_TIME}")
