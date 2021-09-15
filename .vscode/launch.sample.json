@@ -10,13 +10,18 @@
         "run",
         "--load.project",
         "tests.project.json",
+        "--fastFlags.allOnLuau",
+        "--fastFlags.overrides", 
+        "UseDateTimeType3=true",
+        "EnableLoadModule=true", 
+        "EnableDelayedTaskMethods=true",
         "--debug.on",
         "--run",
         "scripts/spec.lua"
       ],
       "cwd": "${workspaceFolder}",
       "stopOnEntry": false
-    }
+    },
     {
         "type": "roblox-lrdb",
         "request": "launch",

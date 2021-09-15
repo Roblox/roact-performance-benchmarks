@@ -33,6 +33,7 @@ valgrind \
         --load.model model.rbxm \
         --run "$2" \
         --headlessRenderer 1 \
+        --fastFlags.overrides "EnableDelayedTaskMethods=true" \
         --lua.globals minSamples=$ITERATION_COUNT \
         --lua.globals cachegrind=true \
     >/dev/null
