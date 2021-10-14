@@ -17,15 +17,22 @@ return function()
 		local ReactRoblox
 		local bootstrapSync
 		local useFrame
-		local RunService
+		local Connect
+		local Disconnect
 
 		beforeEach(function()
 			RobloxJest.resetModules()
 
+			Disconnect = jest.fn()
+			Connect = jest.fn(function()
+				return Disconnect
+			end)
+
 			RobloxJest.mock(srcWorkspace.utils.RunService, function()
 				return {
-					BindToRenderStep = jest:fn(),
-					UnbindFromRenderStep = jest:fn(),
+					RenderStepped = {
+						Connect = Connect,
+					},
 				}
 			end)
 
@@ -39,7 +46,6 @@ return function()
 			ReactRoblox = require(rootWorkspace.Dev.ReactRoblox)
 			bootstrapSync = require(srcWorkspace.testUtils.bootstrapSync)(Roact, ReactRoblox)
 			useFrame = require(hooksWorkspace.useFrame)(Roact)
-			RunService = require(srcWorkspace.utils.RunService)
 		end)
 
 		afterEach(function()
@@ -56,7 +62,7 @@ return function()
 			end)
 
 			wait()
-			jestExpect(RunService.BindToRenderStep).toHaveBeenCalledTimes(1)
+			jestExpect(Connect).toHaveBeenCalledTimes(1)
 		end)
 	end)
 end
