@@ -6,6 +6,7 @@
 /*.rbxm
 /*.rbxmx
 /*.sig
+roblox.toml
 
 # dependencies
 Packages/*
