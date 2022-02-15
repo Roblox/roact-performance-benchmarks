@@ -5,7 +5,7 @@ authors = ["Roblox"]
 content_root = "src"
 
 [dependencies]
-LuauPolyfill = "github.com/roblox/luau-polyfill@roblox/roblox-luau-polyfill@0.2.0"
+LuauPolyfill = "github.com/roblox/luau-polyfill@0.2.0"
 Promise = "github.com/evaera/roblox-lua-promise@3.1.0"
 Cryo = "github.com/Roblox/cryo@1.0.0"
 
