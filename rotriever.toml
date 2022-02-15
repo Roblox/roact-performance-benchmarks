@@ -1,7 +1,7 @@
 [package]
 name = "PerformanceBenchmarks"
 version = "0.1.0"
-author = "Roblox"
+authors = ["Roblox"]
 content_root = "src"
 
 [dependencies]
