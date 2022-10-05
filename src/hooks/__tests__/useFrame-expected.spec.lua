@@ -3,9 +3,9 @@ return function()
 	local srcWorkspace = hooksWorkspace.Parent
 	local rootWorkspace = srcWorkspace.Parent
 
-	local JestRoblox = require(rootWorkspace.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
-	local jest = JestRoblox.Globals.jest
+	local JestGlobals = require(rootWorkspace.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
+	local jest = JestGlobals.jest
 
 	-- ROBLOX TODO: replace this functionality; roact-alignment should probably
 	-- not actually allow this to be consumed by external users

@@ -77,11 +77,7 @@ return function(Roact, ReactRoblox)
 			BackgroundColor3 = backgroundColor,
 			BorderSizePixel = 0,
 			Size = size,
-		}, Object.assign(
-			{},
-			children,
-			siblings
-		))
+		}, Object.assign({}, children, siblings))
 	end
 
 	return Box

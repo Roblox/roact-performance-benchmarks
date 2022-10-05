@@ -4,8 +4,8 @@ return function()
 	local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 	local Array = LuauPolyfill.Array
 
-	local JestRoblox = require(rootWorkspace.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(rootWorkspace.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	local calculateStats = require(script.Parent.Parent.calculateStats)
 

@@ -5,8 +5,8 @@ return function()
 
 	local Roact = require(rootWorkspace.Dev.Roact)
 	local ReactRoblox = require(rootWorkspace.Dev.ReactRoblox)
-	local JestRoblox = require(rootWorkspace.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(rootWorkspace.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	local SierpinskiTriangle = require(testWorkspace.SierpinskiTriangle)(Roact, ReactRoblox).SierpinskiTriangle
 	local bootstrapSync = require(srcWorkspace.testUtils.bootstrapSync)(Roact, ReactRoblox)

@@ -7,8 +7,8 @@ return function()
 	local ReactRoblox = require(rootWorkspace.Dev.ReactRoblox)
 	local Scheduler = require(rootWorkspace.Dev.Scheduler)
 
-	local JestRoblox = require(rootWorkspace.Dev.JestRoblox)
-	local jestExpect = JestRoblox.Globals.expect
+	local JestGlobals = require(rootWorkspace.Dev.JestGlobals)
+	local jestExpect = JestGlobals.expect
 
 	local LuauPolyfill = require(rootWorkspace.LuauPolyfill)
 	local Array = LuauPolyfill.Array

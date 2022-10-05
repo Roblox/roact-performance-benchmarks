@@ -200,10 +200,8 @@ return function(Roact, Scheduler)
 		end
 		useFrame(function()
 			if props.canvasRef.current then
-				props.canvasRef.current.CFrame = CFrame.new(
-					Vector3.new(0, 0, 6 + math.sin(getElapsedTime() * 3) * 2),
-					Vector3.new(0, 0, 0)
-				)
+				props.canvasRef.current.CFrame =
+					CFrame.new(Vector3.new(0, 0, 6 + math.sin(getElapsedTime() * 3) * 2), Vector3.new(0, 0, 0))
 			end
 		end)
 		return Roact.createElement(DivLike)

@@ -5,14 +5,14 @@ authors = ["Roblox"]
 content_root = "src"
 
 [dependencies]
-LuauPolyfill = "github.com/roblox/luau-polyfill@0.2.0"
-Promise = "github.com/evaera/roblox-lua-promise@3.1.0"
+LuauPolyfill = "github.com/roblox/luau-polyfill@1.1.1"
+Promise = "github.com/roblox/roblox-lua-promise@3.3.0"
 Cryo = "github.com/Roblox/cryo@1.0.0"
 
 [dev_dependencies]
-Roact = { git = "https://github.com/roblox/roact-alignment.git", package = "React", rev = "aae4b6d6" }
-ReactRoblox = { git = "https://github.com/roblox/roact-alignment.git", rev = "aae4b6d6" }
-Scheduler = { git = "https://github.com/roblox/roact-alignment.git", rev = "aae4b6d6" }
-JestRoblox = "github.com/roblox/jest-roblox@=1.1.2"
+Roact = { target = "github.com/roblox/roact-alignment", package = "React", version = "17.0.1-rc.16" }
+ReactRoblox = "github.com/roblox/roact-alignment@17.0.1-rc.16"
+Scheduler = "github.com/roblox/roact-alignment@17.0.1-rc.16"
+JestGlobals = "github.com/roblox/jest-roblox@2.4.1"
 # FIXME: This project is not intended for use outside of roact-alignment
-RobloxJest = { git = "https://github.com/roblox/roact-alignment.git", rev = "aae4b6d6" }
+RobloxJest = "github.com/roblox/roact-alignment@17.0.1-rc.16"

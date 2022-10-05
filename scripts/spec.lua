@@ -1,13 +1,12 @@
 local ProcessService = game:GetService("ProcessService")
 local rootWorkspace = script.Parent.TestingModel.Packages
 
--- Load JestRoblox source into Packages folder so it's next to Roact as expected
-local JestRoblox = require(rootWorkspace.Dev.JestRoblox)
+local TestEZ = require(rootWorkspace.Dev.JestGlobals).TestEZ
 
 -- Run all tests, collect results, and report to stdout.
-local result = JestRoblox.TestBootstrap:run(
+local result = TestEZ.TestBootstrap:run(
 	{ rootWorkspace.PerformanceBenchmarks },
-	JestRoblox.Reporters.TextReporterQuiet
+	TestEZ.Reporters.TextReporterQuiet
 )
 
 if result.failureCount == 0 and #result.errors == 0 then
