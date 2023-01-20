@@ -15,7 +15,18 @@ selene src/ concurrent/
 stylua -c src/ concurrent/
 
 echo "Run tests in DEV"
-roblox-cli run --load.model tests.project.json --run scripts/spec.lua --fastFlags.overrides "EnableLoadModule=true" --lua.globals=__DEV__=true
+roblox-cli run --load.model tests.project.json \
+  --run scripts/spec.lua \
+  --testService.errorExitCode=1 \
+  --fastFlags.overrides "UseDateTimeType3=true" "EnableLoadModule=true" "EnableDelayedTaskMethods=true" \
+  --lua.globals=UPDATESNAPSHOT=false \
+  --lua.globals=CI=true \
+  --lua.globals=__DEV__=true
 
 echo "Run tests in release"
-roblox-cli run --load.model tests.project.json --run scripts/spec.lua --fastFlags.overrides "EnableLoadModule=true"
+roblox-cli run --load.model tests.project.json \
+  --run scripts/spec.lua \
+  --testService.errorExitCode=1 \
+  --fastFlags.overrides "UseDateTimeType3=true" "EnableLoadModule=true" "EnableDelayedTaskMethods=true" \
+  --lua.globals=UPDATESNAPSHOT=false \
+  --lua.globals=CI=true

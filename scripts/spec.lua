@@ -1,16 +1,43 @@
-local ProcessService = game:GetService("ProcessService")
-local rootWorkspace = script.Parent.TestingModel.Packages
+--[[
+	* Copyright (c) Roblox Corporation. All rights reserved.
+	* Licensed under the MIT License (the "License");
+	* you may not use this file except in compliance with the License.
+	* You may obtain a copy of the License at
+	*
+	*     https://opensource.org/licenses/MIT
+	*
+	* Unless required by applicable law or agreed to in writing, software
+	* distributed under the License is distributed on an "AS IS" BASIS,
+	* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	* See the License for the specific language governing permissions and
+	* limitations under the License.
+]]
+local Packages = script.Parent.TestModel.Packages
+local runCLI = require(Packages.Dev.Jest).runCLI
+local Workspace = Packages.PerformanceBenchmarks
 
-local TestEZ = require(rootWorkspace.Dev.JestGlobals).TestEZ
+local processServiceExists, ProcessService = pcall(function()
+	return game:GetService("ProcessService")
+end)
 
--- Run all tests, collect results, and report to stdout.
-local result = TestEZ.TestBootstrap:run(
-	{ rootWorkspace.PerformanceBenchmarks },
-	TestEZ.Reporters.TextReporterQuiet
-)
+local status, result = runCLI(Workspace, {
+	verbose = if _G.verbose == "true" then true else nil,
+	ci = _G.CI == "true",
+	updateSnapshot = _G.UPDATESNAPSHOT == "true",
+}, { Workspace }):awaitStatus()
 
-if result.failureCount == 0 and #result.errors == 0 then
-	ProcessService:ExitAsync(0)
-else
+if status == "Rejected" then
+	print(result)
+end
+
+if status == "Resolved" and result.results.numFailedTestSuites == 0 and result.results.numFailedTests == 0 then
+	if processServiceExists then
+		ProcessService:ExitAsync(0)
+	end
+end
+
+if processServiceExists then
 	ProcessService:ExitAsync(1)
 end
+
+return nil
